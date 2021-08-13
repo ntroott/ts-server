@@ -1,0 +1,45 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:security/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "no-console": 0,
+    "no-sync": 2,
+    "arrow-parens": [2, "always"],
+    "func-style": [2, "expression", {"allowArrowFunctions": true}],
+    "quotes": [2, "single", {
+      "avoidEscape": true,
+      "allowTemplateLiterals": true
+    }],
+    "no-bitwise": 2,
+    "require-atomic-updates": 0,
+    "no-prototype-builtins": 0,
+    "no-constant-condition": 2,
+    "@typescript-eslint/no-parameter-properties": 2,
+    "@typescript-eslint/ban-types": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/interface-name-prefix": 0,
+    "@typescript-eslint/no-var-requires": 2,
+    "@typescript-eslint/no-namespace": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/camelcase": 0,
+    "@typescript-eslint/array-type": 2,
+    "@typescript-eslint/no-explicit-any": 2,
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/no-unused-vars": 2,
+    "security/detect-literal-require": 0,
+    "security/detect-object-injection": 0,
+    "security/detect-non-literal-regexp": 0,
+    "security/detect-non-literal-fs-filename": 0,
+    "security/detect-unsafe-regex": 0
+  },
+  "plugins": [
+    "security"
+  ],
+  "ignorePatterns": ["node_modules"]
+}
