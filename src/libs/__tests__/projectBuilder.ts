@@ -7,9 +7,6 @@ describe('Test the root path', () => {
     const pathToInterfaces = await ProjectBuilder.genMainConfigInterface();
     expect(await fs.pathExists(pathToInterfaces)).toBe(true);
   });
-  test('удаление временных файлов', async () => {
-    await ProjectBuilder.clean();
-  });
   test('сборка проекта', async () => {
     await Util.appBanner('test-one');
     await ProjectBuilder.build();

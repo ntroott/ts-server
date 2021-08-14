@@ -12,3 +12,8 @@ process.env.NODE_APP_INSTANCE = args.app || process.env.NODE_APP_INSTANCE;
 
 gulp.task('clean', ProjectBuilder.clean);
 gulp.task('build', ProjectBuilder.build);
+gulp.task('test', ProjectBuilder.test);
+gulp.task(
+  'build-project',
+  gulp.series([ProjectBuilder.clean, ProjectBuilder.test, ProjectBuilder.build])
+);

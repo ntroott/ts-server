@@ -8,6 +8,7 @@ import gulp from 'gulp';
 import plumber from 'gulp-plumber';
 import webpackStream from 'webpack-stream';
 import wbConfig from '@/webpack.config';
+import jest from 'gulp-jest';
 
 export class ProjectBuilder {
   public static async genMainConfigInterface(): Promise<string> {
@@ -29,16 +30,12 @@ export class ProjectBuilder {
     const dist = appRoot.resolve('dist');
     const gen = appRoot.resolve('src/generated');
     const cov = appRoot.resolve('coverage');
-    const opts = { recursive: true, maxRetries: 5, retryDelay: 1 };
-    if (await fs.pathExists(dist)) {
-      await fs.rm(dist, opts);
-    }
-    if (await fs.pathExists(gen)) {
-      await fs.rm(gen, opts);
-    }
-    if (await fs.pathExists(cov)) {
-      await fs.rm(cov, opts);
-    }
+    const rmdir = async (path: string) => {
+      if (await fs.pathExists(path)) {
+        await fs.rm(path, { recursive: true, maxRetries: 5, retryDelay: 1 });
+      }
+    };
+    await Promise.all([rmdir(dist), rmdir(gen), rmdir(cov)]);
     await ProjectBuilder.genMainConfigInterface();
   }
   public static async build(): Promise<void> {
@@ -58,4 +55,16 @@ export class ProjectBuilder {
         .on('error', reject);
     });
   }
+  public static test(): NodeJS.ReadWriteStream {
+    return gulp
+      .src('./**/__tests__', { allowEmpty: true })
+      .pipe(plumber())
+      .pipe(
+        jest({
+          preprocessorIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/node_modules/'],
+          automock: false,
+        })
+      );
+  }
+  public static buildDockerImage() {}
 }

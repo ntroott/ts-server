@@ -1,0 +1,14 @@
+FROM node:latest
+ARG APP_ENV
+ARG APP_NAME
+
+WORKDIR /tmp
+COPY . .
+RUN npm i -g npm && npm i
+RUN npx gulp build-project --env=test --app=test-one
+WORKDIR /app
+RUN cp /tmp/dist/test-one/* /app
+RUN npm i --production
+RUN rm -rf /tmp
+ENTRYPOINT node index.js
+EXPOSE 3000
