@@ -8,9 +8,12 @@ const first = () => {
     console.log('first(): called ' + target + propertyKey);
   };
 };
-class Test {
+interface ITest {
+  test: (text: string) => void;
+}
+class Test implements ITest {
   @first()
-  public test(text: string) {
+  public test(text) {
     console.log(text);
     console.log(appRoot.resolve(text));
     console.log(pck);
