@@ -38,8 +38,8 @@
       "~l/*": ["src/libs/*"],
       "@/*": ["./*"]
     },
-    "types": ["node"]
+    "types": ["node", "jest", "lodash"]
   },
   "exclude": ["node_modules"],
-  "include": ["*.ts", "src/**/*.ts"]
+  "include": ["*.ts", "src/**/*.ts","*.json", "src/**/*.json"]
 }

@@ -26,6 +26,17 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "setupFiles": ["./jest/setup.ts"],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "babel-jest"
+    },
+    "testMatch": ["**/__tests__/*.+(ts|tsx|js)"]
+  },
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
@@ -44,6 +55,7 @@
     "@types/fs-extra": "^9.0.12",
     "@types/gulp": "^4.0.9",
     "@types/gulp-plumber": "^0.0.33",
+    "@types/jest": "^27.0.1",
     "@types/js-yaml": "^4.0.2",
     "@types/lodash": "^4.14.172",
     "@types/mri": "^1.1.1",
@@ -53,6 +65,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "app-root-path": "^3.0.0",
+    "babel-jest": "^27.0.6",
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "babel-plugin-tsconfig-paths": "^1.0.1",
@@ -69,6 +82,7 @@
     "gulp-plumber": "^1.2.1",
     "husky": "^7.0.1",
     "imports-loader": "^3.0.0",
+    "jest": "^27.0.6",
     "js-yaml": "^4.1.0",
     "json-to-ts-interface": "^1.0.5",
     "mri": "^1.1.6",

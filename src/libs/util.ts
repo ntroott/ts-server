@@ -1,9 +1,7 @@
-export class Util {
-  constructor() {
-    process.env.NODE_CONFIG_STRICT_MODE = 'true';
-  }
+process.env.NODE_CONFIG_STRICT_MODE = 'true';
 
-  public async appBanner(appName: string): Promise<void> {
+export class Util {
+  public static async appBanner(appName: string): Promise<void> {
     if (!process.env.BUNDLED) {
       process.env.NODE_APP_INSTANCE = appName;
     }
@@ -13,9 +11,10 @@ export class Util {
     console.log('description = ' + config.description);
   }
 
-  public async getMainConfig(): Promise<import('~g/config').IResult> {
+  public static async getMainConfig(): Promise<import('~g/config').IResult> {
     if (!process.env.BUNDLED) {
-      return (await import('config')).default.util.toObject();
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      return require('config').util.toObject();
     } else {
       return JSON.parse(process.env.MAIN_CONFIG || '{}');
     }
