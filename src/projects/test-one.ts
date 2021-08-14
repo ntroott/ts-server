@@ -1,6 +1,8 @@
 import { Util } from '~/libs/util';
-import { compilerOptions } from '@/tsconfig.json';
-console.log(compilerOptions);
-const util = new Util();
+//import { ProjectBuilder } from '~/libs/projectBuilder';
 
-util.appBanner('test-one');
+const util = new Util();
+//const projectBuilder = new ProjectBuilder();
+
+util.appBanner('test-one').then(() => console.log('finish'));
+//projectBuilder.genMainConfigInterface().then((res) => console.log(res));

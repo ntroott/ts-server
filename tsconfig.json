@@ -34,11 +34,12 @@
     "baseUrl": "./",
     "paths": {
       "~/*": ["src/*"],
+      "~g/*": ["src/generated/*"],
+      "~l/*": ["src/libs/*"],
       "@/*": ["./*"]
     },
     "types": ["node"]
   },
   "exclude": ["node_modules"],
-  "include": ["*.ts", "src/**/*.ts"],
-  "files": ["src/global.d.ts"]
+  "include": ["*.ts", "src/**/*.ts"]
 }

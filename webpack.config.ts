@@ -9,15 +9,16 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
 import { DefinePlugin } from 'webpack';
 import pck from '@/package.json';
-import { Util } from '~/libs/util';
+import { ProjectBuilder } from '~/libs/projectBuilder';
 
 process.env.NODE_CONFIG_STRICT_MODE = 'true';
 
-module.exports = (env) => {
-  process.env.NODE_ENV = env.NODE_ENV;
-  process.env.NODE_APP_INSTANCE = env.NODE_APP_INSTANCE;
-  const util = new Util();
-  const config = util.getMainConfig();
+export default async (env) => {
+  process.env.NODE_ENV = env.NODE_ENV || process.env.NODE_ENV;
+  process.env.NODE_APP_INSTANCE = env.NODE_APP_INSTANCE || process.env.NODE_APP_INSTANCE;
+  await new ProjectBuilder().genMainConfigInterface();
+  const util = new (await import('~/libs/util')).Util();
+  const config = await util.getMainConfig();
   const entry = appRoot.resolve(config.build.entry);
 
   return {

@@ -1,3 +1,6 @@
 description: тестовый сервис номер 2
 build:
   entry: /src/projects/test-two.ts
+  tests:
+    obj:
+      - /src/projects/test-two.ts
