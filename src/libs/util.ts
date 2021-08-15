@@ -1,5 +1,3 @@
-process.env.NODE_CONFIG_STRICT_MODE = 'true';
-
 export class Util {
   public static async appBanner(appName: string): Promise<void> {
     if (!process.env.BUNDLED) {
@@ -11,7 +9,7 @@ export class Util {
     console.log('description = ' + config.description);
   }
 
-  public static async getMainConfig(): Promise<import('~g/config').IResult> {
+  public static async getMainConfig() /*: Promise<import('~g/config').IResult> */ {
     if (!process.env.BUNDLED) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       return require('config').util.toObject();
