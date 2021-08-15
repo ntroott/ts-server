@@ -1,3 +1,3 @@
-import { Util } from '~l/util';
+import { RunTimeConfig } from '~l/runTimeConfig';
 
-Util.appBanner('test-one').then(() => console.log('finish'));
+RunTimeConfig.appBanner('test-one').then(() => console.log('finish'));

@@ -1,12 +1,14 @@
 import { ProjectBuilder } from '~/libs/projectBuilder';
-import { Util } from '~l/util';
 
 describe('Test the root path', () => {
+  test('генерация исходников', async () => {
+    return ProjectBuilder.generateSource();
+  });
   test('сборка проекта', async () => {
-    await Util.appBanner('test-one');
-    await ProjectBuilder.build();
+    process.env.NODE_APP_INSTANCE = 'test-one';
+    return ProjectBuilder.build();
   });
   test('удаление временных файлов', async () => {
-    await ProjectBuilder.clean();
+    return ProjectBuilder.clean();
   });
 });

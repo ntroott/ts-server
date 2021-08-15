@@ -12,8 +12,10 @@ import pck from '@/package.json';
 
 export default async (env) => {
   process.env.NODE_CONFIG_STRICT_MODE = 'true';
-  process.env.NODE_ENV = env.NODE_ENV;
-  process.env.NODE_APP_INSTANCE = env.NODE_APP_INSTANCE;
+  const NODE_ENV = env.NODE_ENV || process.env.NODE_ENV;
+  process.env.NODE_ENV = NODE_ENV;
+  const NODE_APP_INSTANCE = env.NODE_APP_INSTANCE || process.env.NODE_APP_INSTANCE;
+  process.env.NODE_APP_INSTANCE = NODE_APP_INSTANCE;
   const config = (await import('config')).default.util.toObject();
   const entry = appRoot.resolve(config.build.entry);
 
@@ -25,9 +27,9 @@ export default async (env) => {
     optimization: {
       emitOnErrors: false,
     },
-    devtool: env.NODE_ENV === 'production' ? 'cheap-module-source-map' : 'source-map',
+    devtool: NODE_ENV === 'production' ? 'cheap-module-source-map' : 'source-map',
     output: {
-      path: appRoot.resolve(path.join('dist', env.NODE_APP_INSTANCE)),
+      path: appRoot.resolve(path.join('dist', NODE_APP_INSTANCE)),
       filename: 'index.js',
     },
     module: {
@@ -57,8 +59,8 @@ export default async (env) => {
     plugins: [
       new DefinePlugin({
         'process.env.WEBPACK_BUNDLE': true,
-        'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
-        'process.env.NODE_APP_INSTANCE': JSON.stringify(env.NODE_APP_INSTANCE),
+        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+        'process.env.NODE_APP_INSTANCE': JSON.stringify(NODE_APP_INSTANCE),
         'process.env.NODE_CONFIG': JSON.stringify(JSON.stringify(config)),
       }),
       new ForkTSChecker({
@@ -69,7 +71,7 @@ export default async (env) => {
         },
       }),
       new GenPackageJson({
-        name: env.NODE_APP_INSTANCE,
+        name: NODE_APP_INSTANCE,
         version: pck.version,
         description: config.description,
         main: 'index.js',

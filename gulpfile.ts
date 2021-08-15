@@ -11,6 +11,7 @@ process.env.NODE_ENV = args.env || process.env.NODE_ENV;
 process.env.NODE_APP_INSTANCE = args.app || process.env.NODE_APP_INSTANCE;
 
 gulp.task('clean', ProjectBuilder.clean);
+gulp.task('generate-source', ProjectBuilder.generateSource);
 gulp.task('build', ProjectBuilder.build);
 gulp.task('test', ProjectBuilder.test);
 gulp.task('build-project', gulp.series([ProjectBuilder.clean, ProjectBuilder.build]));
