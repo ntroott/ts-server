@@ -2,7 +2,6 @@
   "name": "ts-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ntroott/ts-server.git"

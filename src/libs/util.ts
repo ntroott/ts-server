@@ -1,6 +1,6 @@
 export class Util {
   public static async appBanner(appName: string): Promise<void> {
-    if (!process.env.BUNDLED) {
+    if (!process.env.WEBPACK_BUNDLE) {
       process.env.NODE_APP_INSTANCE = appName;
     }
     const config = await this.getMainConfig();
@@ -9,12 +9,11 @@ export class Util {
     console.log('description = ' + config.description);
   }
 
-  public static async getMainConfig() /*: Promise<import('~g/config').IResult> */ {
-    if (!process.env.BUNDLED) {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      return require('config').util.toObject();
+  public static async getMainConfig() {
+    if (!process.env.WEBPACK_BUNDLE) {
+      return (await import('config')).default.util.toObject();
     } else {
-      return JSON.parse(process.env.MAIN_CONFIG || '{}');
+      return JSON.parse(process.env.NODE_CONFIG || '{}');
     }
   }
 }

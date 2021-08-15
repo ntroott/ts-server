@@ -9,12 +9,12 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
 import { DefinePlugin } from 'webpack';
 import pck from '@/package.json';
-import { Util } from '~l/util';
 
 export default async (env) => {
+  process.env.NODE_CONFIG_STRICT_MODE = 'true';
   process.env.NODE_ENV = env.NODE_ENV;
   process.env.NODE_APP_INSTANCE = env.NODE_APP_INSTANCE;
-  const config = await Util.getMainConfig();
+  const config = (await import('config')).default.util.toObject();
   const entry = appRoot.resolve(config.build.entry);
 
   return {
@@ -27,7 +27,7 @@ export default async (env) => {
     },
     devtool: env.NODE_ENV === 'production' ? 'cheap-module-source-map' : 'source-map',
     output: {
-      path: appRoot.resolve(path.posix.join('dist', env.NODE_APP_INSTANCE)),
+      path: appRoot.resolve(path.join('dist', env.NODE_APP_INSTANCE)),
       filename: 'index.js',
     },
     module: {
@@ -56,10 +56,10 @@ export default async (env) => {
     },
     plugins: [
       new DefinePlugin({
-        'process.env.BUNDLED': true,
+        'process.env.WEBPACK_BUNDLE': true,
         'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
         'process.env.NODE_APP_INSTANCE': JSON.stringify(env.NODE_APP_INSTANCE),
-        'process.env.MAIN_CONFIG': JSON.stringify(JSON.stringify(config)),
+        'process.env.NODE_CONFIG': JSON.stringify(JSON.stringify(config)),
       }),
       new ForkTSChecker({
         typescript: { enabled: true, build: true },

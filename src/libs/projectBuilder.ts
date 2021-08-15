@@ -7,15 +7,14 @@ import shelljs from 'shelljs';
 import wbConfig from '@/webpack.config';
 
 export class ProjectBuilder {
-  public static async clean(): Promise<void> {
-    const dist = appRoot.resolve('dist');
-    const cov = appRoot.resolve('coverage');
-    const rmdir = async (path: string) => {
+  public static async clean(): Promise<void[]> {
+    const rmdir = async (path: string): Promise<void> => {
+      path = appRoot.resolve(path);
       if (await fs.pathExists(path)) {
         await fs.rm(path, { recursive: true, maxRetries: 5, retryDelay: 1 });
       }
     };
-    await Promise.all([rmdir(dist), rmdir(cov)]);
+    return Promise.all([rmdir('dist'), rmdir('coverage')]);
   }
   public static async build(): Promise<void> {
     const wbConf = await wbConfig({
@@ -35,7 +34,7 @@ export class ProjectBuilder {
     });
   }
   public static test(): Promise<void> {
-    return ProjectBuilder.execShell('npx jest');
+    return ProjectBuilder.execShell('NODE_OPTIONS=--experimental-vm-modules npx jest --color');
   }
   private static execShell(cmd: string): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -51,8 +50,8 @@ export class ProjectBuilder {
   public static async buildDockerImage(): Promise<void> {
     const cmd =
       `docker build --tag ${process.env.NODE_ENV}-${process.env.NODE_APP_INSTANCE} ` +
-      `--build-arg APP_ENV=${process.env.NODE_ENV} ` +
-      `--build-arg APP_NAME=${process.env.NODE_APP_INSTANCE} ` +
+      `--build-arg NODE_ENV=${process.env.NODE_ENV} ` +
+      `--build-arg NODE_APP_INSTANCE=${process.env.NODE_APP_INSTANCE} ` +
       ` .`;
     return ProjectBuilder.execShell(cmd);
   }
