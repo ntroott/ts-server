@@ -9,28 +9,41 @@ import path from 'path';
 import yaml from 'js-yaml';
 import deepExtend from 'deep-extend';
 import { v1 } from 'uuid';
+import _ from 'lodash';
 
+export const buildDirs = (async () => {
+  const configDir = appRoot.resolve('config');
+  const dirs = _.get(
+    yaml.load(await fs.readFile(path.join(configDir, 'default.yaml'), 'utf8')),
+    'build.outputDirs'
+  );
+  return {
+    configDir,
+    dist: appRoot.resolve(dirs['dist']),
+    coverage: appRoot.resolve(dirs['coverage']),
+    generatedSrc: appRoot.resolve(dirs['generatedSrc']),
+  };
+})();
 export class ProjectBuilder {
   public static async clean(): Promise<void[]> {
     const rmdir = async (path: string): Promise<void> => {
-      path = appRoot.resolve(path);
       if (await fs.pathExists(path)) {
         await fs.rm(path, { recursive: true, maxRetries: 5, retryDelay: 1 });
       }
     };
-    return Promise.all([rmdir('dist'), rmdir('coverage'), rmdir('src/generated')]);
+    const dirs = await buildDirs;
+    return Promise.all([rmdir(dirs.dist), rmdir(dirs.coverage), rmdir(dirs.generatedSrc)]);
   }
   public static async generateSource(): Promise<void> {
-    const confDir = appRoot.resolve('config');
-    const files = await fs.readdir(confDir);
+    const dirs = await buildDirs;
+    const files = await fs.readdir(dirs.configDir);
     const obj = {};
     for (let i = 0; i < files.length - 1; i++) {
-      deepExtend(obj, yaml.load(await fs.readFile(path.posix.join(confDir, files[i]), 'utf8')));
+      deepExtend(obj, yaml.load(await fs.readFile(path.join(dirs.configDir, files[i]), 'utf8')));
     }
-    const genDir = appRoot.resolve('src/generated');
-    await fs.mkdirp(genDir);
-    const outJson = path.join(genDir, v1() + '.json');
-    const outInterface = path.join(genDir, 'runTimeConfig.d.ts');
+    await fs.mkdirp(dirs.generatedSrc);
+    const outJson = path.join(dirs.generatedSrc, v1() + '.json');
+    const outInterface = path.join(dirs.generatedSrc, 'runTimeConfig.d.ts');
     await fs.writeJson(outJson, obj);
     await ProjectBuilder.execShell(`npx make_types -i ${outInterface} ${outJson} RunTimeConfig`);
     return fs.rm(outJson);
@@ -71,6 +84,7 @@ export class ProjectBuilder {
       `docker build --tag ${process.env.NODE_ENV}-${process.env.NODE_APP_INSTANCE} ` +
       `--build-arg NODE_ENV=${process.env.NODE_ENV} ` +
       `--build-arg NODE_APP_INSTANCE=${process.env.NODE_APP_INSTANCE} ` +
+      `--build-arg DIST=${(await import('config')).default.get('build.outputDirs.dist')} ` +
       ` .`;
     return ProjectBuilder.execShell(cmd);
   }

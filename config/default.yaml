@@ -3,3 +3,8 @@ monitoring:
   captureBody: all
   ignoreUrls:
     - /ping
+build:
+  outputDirs:
+    dist: dist
+    generatedSrc: src/generated
+    coverage: coverage

@@ -38,6 +38,7 @@
     "@babel/preset-typescript": "^7.15.0",
     "@babel/register": "^7.15.3",
     "@types/app-root-path": "^1.2.4",
+    "@types/config": "^0.0.39",
     "@types/copy-webpack-plugin": "^8.0.1",
     "@types/deep-extend": "^0.4.31",
     "@types/fs-extra": "^9.0.12",

@@ -29,7 +29,7 @@ export default async (env) => {
     },
     devtool: NODE_ENV === 'production' ? 'cheap-module-source-map' : 'source-map',
     output: {
-      path: appRoot.resolve(path.join('dist', NODE_APP_INSTANCE)),
+      path: appRoot.resolve(path.join(config.build.outputDirs.dist, NODE_APP_INSTANCE)),
       filename: 'index.js',
     },
     module: {
@@ -47,7 +47,7 @@ export default async (env) => {
           exclude: /node_modules/,
         },
         {
-          test: /\.js$/,
+          test: /\.ts$/,
           use: ['source-map-loader'],
           enforce: 'pre',
         },
