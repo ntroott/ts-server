@@ -51,8 +51,7 @@
     "@types/node": "^16.6.1",
     "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
-    "@types/webpack-node-externals": "^2.5.2",
-    "@types/webpack-stream": "^3.2.12",
+    "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "app-root-path": "^3.0.0",
@@ -96,5 +95,6 @@
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "tslib": "^2.3.1"
-  }
+  },
+  "packageManager": "yarn@3.0.1"
 }

@@ -10,6 +10,7 @@ import yaml from 'js-yaml';
 import deepExtend from 'deep-extend';
 import { v1 } from 'uuid';
 import _ from 'lodash';
+import webpack from 'webpack';
 
 export const buildDirs = (async () => {
   const configDir = appRoot.resolve('config');
@@ -53,8 +54,6 @@ export class ProjectBuilder {
       NODE_ENV: process.env.NODE_ENV,
       NODE_APP_INSTANCE: process.env.NODE_APP_INSTANCE,
     });
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const webpack = require('webpack');
     return new Promise((resolve, reject) => {
       gulp
         .src(wbConf.entry as string)

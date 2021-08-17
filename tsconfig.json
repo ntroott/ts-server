@@ -30,7 +30,7 @@
     "pretty": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "baseUrl": "./",
     "paths": {
       "~/*": ["src/*"],

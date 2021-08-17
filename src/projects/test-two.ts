@@ -4,7 +4,7 @@ const a = 'test';
 
 import { RunTimeConfig } from '~l/runTimeConfig';
 
-RunTimeConfig.appBanner('test-two').then(() => console.log('finish'));
+RunTimeConfig.set('test-two');
 const first = () => {
   console.log('first(): factory evaluated');
   return function (target: object, propertyKey: string) {

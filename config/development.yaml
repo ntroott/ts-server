@@ -1,0 +1,5 @@
+monitoring:
+  url: http://localhost:8100
+  captureBody: all
+  ignoreUrls:
+    - /ping

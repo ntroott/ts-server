@@ -7,10 +7,10 @@ import ForkTSChecker from 'fork-ts-checker-webpack-plugin';
 import GenPackageJson from 'generate-package-json-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
-import { DefinePlugin } from 'webpack';
+import { DefinePlugin, Configuration, WebpackPluginInstance } from 'webpack';
 import pck from '@/package.json';
 
-export default async (env) => {
+export default async (env): Promise<Configuration> => {
   process.env.NODE_CONFIG_STRICT_MODE = 'true';
   const NODE_ENV = env.NODE_ENV || process.env.NODE_ENV;
   process.env.NODE_ENV = NODE_ENV;
@@ -77,8 +77,8 @@ export default async (env) => {
         main: 'index.js',
         author: pck.author,
         license: pck.license,
-      }),
-      new CopyWebpackPlugin({ patterns: [{ from: 'package-lock.json' }] }),
+      }) as WebpackPluginInstance,
+      new CopyWebpackPlugin({ patterns: [{ from: 'yarn.lock' }] }),
     ],
-  } as import('webpack').Configuration;
+  };
 };
