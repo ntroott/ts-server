@@ -15,4 +15,4 @@ RUN yarn
 RUN rm -rf /tmp
 
 EXPOSE 3000
-ENTRYPOINT node index.js
+ENTRYPOINT sh

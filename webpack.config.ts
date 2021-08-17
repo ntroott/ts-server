@@ -78,7 +78,9 @@ export default async (env): Promise<Configuration> => {
         author: pck.author,
         license: pck.license,
       }) as WebpackPluginInstance,
-      new CopyWebpackPlugin({ patterns: [{ from: 'yarn.lock' }] }),
+      new CopyWebpackPlugin({
+        patterns: [{ from: 'yarn.lock' }, { from: '.yarnrc.yml' }, { from: '.yarn', to: '.yarn' }],
+      }),
     ],
   };
 };
