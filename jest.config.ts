@@ -1,6 +1,4 @@
-import { compilerOptions } from './tsconfig.json';
-import { register } from 'tsconfig-paths';
-register({ baseUrl: './', paths: compilerOptions.paths });
+require('./src/libs/tsPaths');
 import type { Config } from '@jest/types';
 import { buildDirs } from '~l/projectBuilder';
 process.env.NODE_CONFIG_STRICT_MODE = 'true';
@@ -16,7 +14,8 @@ export default async (): Promise<Config.InitialOptions> => {
       '^.+\\.(ts|tsx)$': 'babel-jest',
     },
     testMatch: ['**/__tests__/*.+(ts|tsx|js)'],
-    collectCoverage: true,
+    collectCoverage: false,
     coverageDirectory: dirs.coverage,
+    resolver: require.resolve(`jest-pnp-resolver`),
   };
 };

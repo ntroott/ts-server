@@ -25,6 +25,13 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
+  "dependencies": {
+    "@babel/runtime": "^7.15.3",
+    "app-root-path": "^3.0.0",
+    "lodash": "^4.17.21",
+    "reflect-metadata": "^0.1.13",
+    "tslib": "^2.3.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
@@ -37,6 +44,7 @@
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-typescript": "^7.15.0",
     "@babel/register": "^7.15.3",
+    "@jest/types": "^27.0.6",
     "@types/app-root-path": "^1.2.4",
     "@types/config": "^0.0.39",
     "@types/copy-webpack-plugin": "^8.0.1",
@@ -54,7 +62,6 @@
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
-    "app-root-path": "^3.0.0",
     "babel-jest": "^27.0.6",
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
@@ -74,9 +81,11 @@
     "husky": "^7.0.1",
     "imports-loader": "^3.0.0",
     "jest": "^27.0.6",
+    "jest-pnp-resolver": "^1.2.2",
     "js-yaml": "^4.1.0",
     "maketypes": "^1.1.2",
     "mri": "^1.1.6",
+    "pnp-webpack-plugin": "^1.7.0",
     "prettier": "^2.3.2",
     "pretty-quick": "^3.1.1",
     "shelljs": "^0.8.4",
@@ -89,12 +98,6 @@
     "webpack-cli": "^4.7.2",
     "webpack-node-externals": "^3.0.0",
     "webpack-stream": "^6.1.2"
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.15.3",
-    "lodash": "^4.17.21",
-    "reflect-metadata": "^0.1.13",
-    "tslib": "^2.3.1"
   },
   "packageManager": "yarn@3.0.1"
 }

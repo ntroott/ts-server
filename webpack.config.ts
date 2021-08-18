@@ -1,6 +1,4 @@
-import { compilerOptions, include } from './tsconfig.json';
-import { register } from 'tsconfig-paths';
-register({ baseUrl: './', paths: compilerOptions.paths });
+require('./src/libs/tsPaths');
 import nodeExternals from 'webpack-node-externals';
 import appRoot from 'app-root-path';
 import ForkTSChecker from 'fork-ts-checker-webpack-plugin';
@@ -8,7 +6,9 @@ import GenPackageJson from 'generate-package-json-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
 import { DefinePlugin, Configuration, WebpackPluginInstance } from 'webpack';
+import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import pck from '@/package.json';
+import {include} from '@/tsconfig.json'
 
 export default async (env): Promise<Configuration> => {
   process.env.NODE_CONFIG_STRICT_MODE = 'true';
@@ -43,7 +43,7 @@ export default async (env): Promise<Configuration> => {
         },
         {
           test: /\.(ts|js)x?$/,
-          loader: 'babel-loader',
+          loader: require.resolve('babel-loader'),
           exclude: /node_modules/,
         },
         {
@@ -55,6 +55,14 @@ export default async (env): Promise<Configuration> => {
     },
     resolve: {
       extensions: ['.ts', '.js', '.json', '.tsx'],
+      plugins: [
+        PnpWebpackPlugin,
+      ],
+    },
+    resolveLoader: {
+      plugins: [
+        PnpWebpackPlugin.moduleLoader(module),
+      ],
     },
     plugins: [
       new DefinePlugin({

@@ -46,7 +46,7 @@ export class ProjectBuilder {
     const outJson = path.join(dirs.generatedSrc, v1() + '.json');
     const outInterface = path.join(dirs.generatedSrc, 'runTimeConfig.d.ts');
     await fs.writeJson(outJson, obj);
-    await ProjectBuilder.execShell(`npx make_types -i ${outInterface} ${outJson} RunTimeConfig`);
+    await ProjectBuilder.execShell(`yarn make_types -i ${outInterface} ${outJson} RunTimeConfig`);
     return fs.rm(outJson);
   }
   public static async build(): Promise<void> {
@@ -65,7 +65,7 @@ export class ProjectBuilder {
     });
   }
   public static test(): Promise<void> {
-    return ProjectBuilder.execShell('NODE_OPTIONS=--experimental-vm-modules npx jest --color');
+    return ProjectBuilder.execShell('NODE_OPTIONS=--experimental-vm-modules yarn jest --color');
   }
   private static execShell(cmd: string): Promise<void> {
     return new Promise((resolve, reject) => {
