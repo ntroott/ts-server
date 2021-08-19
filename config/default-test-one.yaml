@@ -1,7 +1,0 @@
-description: тестовый сервис номер 1
-build:
-  entry: /src/projects/test-one.ts
-  tests:
-    obj2:
-      assa:
-        - //src/projects/test-two.ts
