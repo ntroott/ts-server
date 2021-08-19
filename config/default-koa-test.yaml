@@ -1,0 +1,4 @@
+description: тестовый сервис номер 2
+build:
+  entry: /src/projects/koa-test/index.ts
+  swagger: /src/projects/koa-test/swagger/index.yml

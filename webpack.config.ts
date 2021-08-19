@@ -14,8 +14,10 @@ import yaml from 'js-yaml';
 import fs from 'fs-extra';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import toYaml from 'json-to-pretty-yaml';
+import swaggerCombine from 'swagger-combine';
 import pck from '@/package.json';
 import { include } from '@/tsconfig.json';
+import * as process from 'process';
 
 export default async (env): Promise<Configuration> => {
   process.env.NODE_CONFIG_STRICT_MODE = 'true';
@@ -23,9 +25,19 @@ export default async (env): Promise<Configuration> => {
   process.env.NODE_ENV = NODE_ENV;
   const NODE_APP_INSTANCE = env.NODE_APP_INSTANCE || process.env.NODE_APP_INSTANCE;
   process.env.NODE_APP_INSTANCE = NODE_APP_INSTANCE;
+  const WEBPACK_BUNDLE = env.WEBPACK_BUNDLE || process.env.WEBPACK_BUNDLE;
+  process.env.WEBPACK_BUNDLE = WEBPACK_BUNDLE;
+  const FULL_BUILD = env.FULL_BUILD || process.env.FULL_BUILD;
+  process.env.FULL_BUILD = FULL_BUILD;
 
   const config = (await import('config')).default.util.toObject();
   const entry = appRoot.resolve(config.build.entry);
+  let swgConf;
+  if (config.build.swagger) {
+    swgConf = JSON.stringify(swaggerCombine(appRoot.resolve(config.build.swagger)));
+  } else {
+    swgConf = JSON.stringify({});
+  }
   const yarnCfg = yaml.load(await fs.readFile(appRoot.resolve('.yarnrc.yml'), 'utf8')) as {
     nodeLinker: string;
     yarnPath: string;
@@ -40,7 +52,7 @@ export default async (env): Promise<Configuration> => {
     optimization: {
       emitOnErrors: false,
     },
-    devtool: NODE_ENV === 'production' ? 'cheap-module-source-map' : 'source-map',
+    devtool: WEBPACK_BUNDLE ? 'cheap-module-source-map' : 'source-map',
     output: {
       path: appRoot.resolve(path.join(config.build.outputDirs.dist, NODE_APP_INSTANCE)),
       filename: 'index.js',
@@ -69,13 +81,6 @@ export default async (env): Promise<Configuration> => {
       plugins: [PnpWebpackPlugin.moduleLoader(module)],
     },
     plugins: [
-      new CleanWebpackPlugin(),
-      new DefinePlugin({
-        'process.env.WEBPACK_BUNDLE': true,
-        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-        'process.env.NODE_APP_INSTANCE': JSON.stringify(NODE_APP_INSTANCE),
-        'process.env.NODE_CONFIG': JSON.stringify(JSON.stringify(config)),
-      }),
       new ForkTSChecker({
         typescript: { enabled: true, build: true },
         eslint: {
@@ -83,30 +88,42 @@ export default async (env): Promise<Configuration> => {
           files: include.filter((val) => /\.(ts|js)x?$/.test(val)),
         },
       }),
-      new GenPackageJson({
-        name: NODE_APP_INSTANCE,
-        version: pck.version,
-        description: config.description,
-        main: 'index.js',
-        author: pck.author,
-        license: pck.license,
-        packageManager: pck.packageManager,
-      }) as WebpackPluginInstance,
-      new CopyWebpackPlugin({
-        patterns: [
-          { from: 'yarn.lock' },
-          { from: '.yarn/cache', to: '.yarn/cache' },
-          { from: '.yarn/releases', to: '.yarn/releases' },
-          {
-            from: '.yarnrc.yml',
-            to: '.yarnrc.yml',
-            transform: () => {
-              delete yarnCfg.plugins;
-              return toYaml.stringify(yarnCfg);
-            },
-          },
-        ],
+      new CleanWebpackPlugin(),
+      new DefinePlugin({
+        'process.env.WEBPACK_BUNDLE': true,
+        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+        'process.env.NODE_APP_INSTANCE': JSON.stringify(NODE_APP_INSTANCE),
+        'process.env.NODE_CONFIG': JSON.stringify(JSON.stringify(config)),
+        'process.env.SWAGGER_CONFIG': JSON.stringify(swgConf),
       }),
+      ...(FULL_BUILD === 'true'
+        ? [
+            new GenPackageJson({
+              name: NODE_APP_INSTANCE,
+              version: pck.version,
+              description: config.description,
+              main: 'index.js',
+              author: pck.author,
+              license: pck.license,
+              packageManager: pck.packageManager,
+            }) as WebpackPluginInstance,
+            new CopyWebpackPlugin({
+              patterns: [
+                { from: 'yarn.lock' },
+                { from: '.yarn/cache', to: '.yarn/cache' },
+                { from: '.yarn/releases', to: '.yarn/releases' },
+                {
+                  from: '.yarnrc.yml',
+                  to: '.yarnrc.yml',
+                  transform: () => {
+                    delete yarnCfg.plugins;
+                    return toYaml.stringify(yarnCfg);
+                  },
+                },
+              ],
+            }),
+          ]
+        : []),
     ],
   };
 };
