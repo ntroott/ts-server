@@ -50,11 +50,12 @@ export class ProjectBuilder {
     return fs.rm(outJson);
   }
   public static async build(): Promise<void> {
+    await ProjectBuilder.generateSource();
     const wbConf = await wbConfig({
       NODE_ENV: process.env.NODE_ENV,
       NODE_APP_INSTANCE: process.env.NODE_APP_INSTANCE,
     });
-    return new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       gulp
         .src(wbConf.entry as string)
         .pipe(plumber(reject))
@@ -63,6 +64,7 @@ export class ProjectBuilder {
         .on('end', resolve)
         .on('error', reject);
     });
+    return ProjectBuilder.execShell(`cd ${wbConf.output.path} && yarn`);
   }
   public static test(): Promise<void> {
     return ProjectBuilder.execShell('NODE_OPTIONS=--experimental-vm-modules yarn jest --color');
@@ -79,8 +81,10 @@ export class ProjectBuilder {
     });
   }
   public static async buildDockerImage(): Promise<void> {
+    await ProjectBuilder.build();
     const cmd =
       `docker build --tag ${process.env.NODE_ENV}-${process.env.NODE_APP_INSTANCE} ` +
+      //`--no-cache ` +
       `--build-arg NODE_ENV=${process.env.NODE_ENV} ` +
       `--build-arg NODE_APP_INSTANCE=${process.env.NODE_APP_INSTANCE} ` +
       `--build-arg DIST=${(await import('config')).default.get('build.outputDirs.dist')} ` +

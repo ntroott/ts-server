@@ -1,18 +1,16 @@
 FROM node:current-alpine3.14
 ENV TZ="Europe/Moscow"
+ENV PYTHONUNBUFFERED=1
 ARG NODE_ENV
 ARG NODE_APP_INSTANCE
 ARG DIST
 
-WORKDIR /tmp
-COPY . .
-RUN apk update && apk add --no-cache tzdata
-RUN yarn
-RUN npx gulp build-project --env=$NODE_ENV --app=$NODE_APP_INSTANCE --color
+RUN apk update && \
+    apk add --update --no-cache python3 make g++
+RUN ln -sf python3 /usr/bin/python
 WORKDIR /app
-RUN cp /tmp/$DIST/$NODE_APP_INSTANCE/* /app
+COPY ./$DIST/$NODE_APP_INSTANCE/ .
 RUN yarn
-RUN rm -rf /tmp
 
 EXPOSE 3000
-ENTRYPOINT sh
+ENTRYPOINT yarn node index.js

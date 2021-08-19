@@ -14,8 +14,4 @@ gulp.task('clean', ProjectBuilder.clean);
 gulp.task('generate-source', ProjectBuilder.generateSource);
 gulp.task('build', ProjectBuilder.build);
 gulp.task('test', ProjectBuilder.test);
-gulp.task(
-  'build-project',
-  gulp.series([ProjectBuilder.clean, ProjectBuilder.generateSource, ProjectBuilder.build])
-);
 gulp.task('build-docker-image', ProjectBuilder.buildDockerImage);

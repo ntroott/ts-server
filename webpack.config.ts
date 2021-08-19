@@ -13,6 +13,7 @@ import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import yaml from 'js-yaml';
 import fs from 'fs-extra';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import toYaml from 'json-to-pretty-yaml';
 import pck from '@/package.json';
 import { include } from '@/tsconfig.json';
 
@@ -29,6 +30,7 @@ export default async (env): Promise<Configuration> => {
     nodeLinker: string;
     yarnPath: string;
     cacheFolder: string;
+    plugins: { path: string; spec: string }[];
   };
   return {
     entry,
@@ -94,9 +96,15 @@ export default async (env): Promise<Configuration> => {
         patterns: [
           { from: 'yarn.lock' },
           { from: '.yarn/cache', to: '.yarn/cache' },
-          { from: '.yarn/plugins', to: '.yarn/plugins' },
           { from: '.yarn/releases', to: '.yarn/releases' },
-          { from: '.yarnrc.yml' },
+          {
+            from: '.yarnrc.yml',
+            to: '.yarnrc.yml',
+            transform: () => {
+              delete yarnCfg.plugins;
+              return toYaml.stringify(yarnCfg);
+            },
+          },
         ],
       }),
     ],

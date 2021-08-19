@@ -88,6 +88,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:27.0.6"],
             ["jest-pnp-resolver", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:1.2.2"],
             ["js-yaml", "npm:4.1.0"],
+            ["json-to-pretty-yaml", "npm:1.2.2"],
             ["lodash", "npm:4.17.21"],
             ["maketypes", "npm:1.1.2"],
             ["mri", "npm:1.1.6"],
@@ -9518,6 +9519,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["json-to-pretty-yaml", [
+        ["npm:1.2.2", {
+          "packageLocation": "./.yarn/cache/json-to-pretty-yaml-npm-1.2.2-c4436a57f0-4b78480f42.zip/node_modules/json-to-pretty-yaml/",
+          "packageDependencies": [
+            ["json-to-pretty-yaml", "npm:1.2.2"],
+            ["remedial", "npm:1.0.8"],
+            ["remove-trailing-spaces", "npm:1.0.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["json5", [
         ["npm:1.0.1", {
           "packageLocation": "./.yarn/cache/json5-npm-1.0.1-647fc8794b-e76ea23dbb.zip/node_modules/json5/",
@@ -11634,6 +11646,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["remedial", [
+        ["npm:1.0.8", {
+          "packageLocation": "./.yarn/cache/remedial-npm-1.0.8-d614f7e7c5-12df7c55eb.zip/node_modules/remedial/",
+          "packageDependencies": [
+            ["remedial", "npm:1.0.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["remove-bom-buffer", [
         ["npm:3.0.0", {
           "packageLocation": "./.yarn/cache/remove-bom-buffer-npm-3.0.0-90f71f0951-e508fd92e5.zip/node_modules/remove-bom-buffer/",
@@ -11662,6 +11683,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/remove-trailing-separator-npm-1.1.0-16d7231316-d3c20b5a2d.zip/node_modules/remove-trailing-separator/",
           "packageDependencies": [
             ["remove-trailing-separator", "npm:1.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["remove-trailing-spaces", [
+        ["npm:1.0.8", {
+          "packageLocation": "./.yarn/cache/remove-trailing-spaces-npm-1.0.8-d32e564d04-81f615c5cd.zip/node_modules/remove-trailing-spaces/",
+          "packageDependencies": [
+            ["remove-trailing-spaces", "npm:1.0.8"]
           ],
           "linkType": "HARD",
         }]
@@ -13131,6 +13161,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:27.0.6"],
             ["jest-pnp-resolver", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:1.2.2"],
             ["js-yaml", "npm:4.1.0"],
+            ["json-to-pretty-yaml", "npm:1.2.2"],
             ["lodash", "npm:4.17.21"],
             ["maketypes", "npm:1.1.2"],
             ["mri", "npm:1.1.6"],
