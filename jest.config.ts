@@ -1,4 +1,6 @@
-require('./src/libs/tsPaths');
+import { compilerOptions } from './tsconfig.json';
+import { register } from 'tsconfig-paths';
+register({ baseUrl: './', paths: compilerOptions.paths });
 import type { Config } from '@jest/types';
 import { buildDirs } from '~l/projectBuilder';
 process.env.NODE_CONFIG_STRICT_MODE = 'true';

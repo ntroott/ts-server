@@ -1,5 +1,8 @@
-require('./src/libs/tsPaths');
+import { compilerOptions } from './tsconfig.json';
+import { register } from 'tsconfig-paths';
+register({ baseUrl: './', paths: compilerOptions.paths });
 import nodeExternals from 'webpack-node-externals';
+import { WebpackPnpExternals } from 'webpack-pnp-externals';
 import appRoot from 'app-root-path';
 import ForkTSChecker from 'fork-ts-checker-webpack-plugin';
 import GenPackageJson from 'generate-package-json-webpack-plugin';
@@ -7,8 +10,11 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
 import { DefinePlugin, Configuration, WebpackPluginInstance } from 'webpack';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
+import yaml from 'js-yaml';
+import fs from 'fs-extra';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import pck from '@/package.json';
-import {include} from '@/tsconfig.json'
+import { include } from '@/tsconfig.json';
 
 export default async (env): Promise<Configuration> => {
   process.env.NODE_CONFIG_STRICT_MODE = 'true';
@@ -16,14 +22,19 @@ export default async (env): Promise<Configuration> => {
   process.env.NODE_ENV = NODE_ENV;
   const NODE_APP_INSTANCE = env.NODE_APP_INSTANCE || process.env.NODE_APP_INSTANCE;
   process.env.NODE_APP_INSTANCE = NODE_APP_INSTANCE;
+
   const config = (await import('config')).default.util.toObject();
   const entry = appRoot.resolve(config.build.entry);
-
+  const yarnCfg = yaml.load(await fs.readFile(appRoot.resolve('.yarnrc.yml'), 'utf8')) as {
+    nodeLinker: string;
+    yarnPath: string;
+    cacheFolder: string;
+  };
   return {
     entry,
     mode: 'none',
     target: 'node',
-    externals: [nodeExternals()],
+    externals: [yarnCfg.nodeLinker === 'pnp' ? WebpackPnpExternals() : nodeExternals()],
     optimization: {
       emitOnErrors: false,
     },
@@ -43,28 +54,20 @@ export default async (env): Promise<Configuration> => {
         },
         {
           test: /\.(ts|js)x?$/,
-          loader: require.resolve('babel-loader'),
+          loader: 'babel-loader',
           exclude: /node_modules/,
-        },
-        {
-          test: /\.ts$/,
-          use: ['source-map-loader'],
-          enforce: 'pre',
         },
       ],
     },
     resolve: {
       extensions: ['.ts', '.js', '.json', '.tsx'],
-      plugins: [
-        PnpWebpackPlugin,
-      ],
+      plugins: [PnpWebpackPlugin],
     },
     resolveLoader: {
-      plugins: [
-        PnpWebpackPlugin.moduleLoader(module),
-      ],
+      plugins: [PnpWebpackPlugin.moduleLoader(module)],
     },
     plugins: [
+      new CleanWebpackPlugin(),
       new DefinePlugin({
         'process.env.WEBPACK_BUNDLE': true,
         'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
@@ -85,9 +88,16 @@ export default async (env): Promise<Configuration> => {
         main: 'index.js',
         author: pck.author,
         license: pck.license,
+        packageManager: pck.packageManager,
       }) as WebpackPluginInstance,
       new CopyWebpackPlugin({
-        patterns: [{ from: 'yarn.lock' }, { from: '.yarnrc.yml' }, { from: '.yarn', to: '.yarn' }],
+        patterns: [
+          { from: 'yarn.lock' },
+          { from: '.yarn/cache', to: '.yarn/cache' },
+          { from: '.yarn/plugins', to: '.yarn/plugins' },
+          { from: '.yarn/releases', to: '.yarn/releases' },
+          { from: '.yarnrc.yml' },
+        ],
       }),
     ],
   };

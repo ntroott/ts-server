@@ -1,5 +1,6 @@
 import appRoot from 'app-root-path';
 import pck from '@/tsconfig.json';
+import sleep from 'sleep';
 const a = 'test';
 
 import { RunTimeConfig } from '~l/runTimeConfig';
@@ -25,3 +26,7 @@ class Test implements ITest {
 
 const obj = new Test();
 obj.test(a);
+
+sleep.sleep(10);
+
+console.log('end sleep');

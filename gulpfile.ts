@@ -1,4 +1,6 @@
-require('./src/libs/tsPaths');
+import { compilerOptions } from './tsconfig.json';
+import { register } from 'tsconfig-paths';
+register({ baseUrl: './', paths: compilerOptions.paths });
 import gulp from 'gulp';
 import mri from 'mri';
 const args = mri(process.argv.slice(2));
