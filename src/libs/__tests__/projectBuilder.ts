@@ -5,7 +5,7 @@ describe('Test the root path', () => {
     return ProjectBuilder.generateSource();
   });
   test('сборка проекта', async () => {
-    process.env.NODE_APP_INSTANCE = 'test-one';
+    process.env.NODE_APP_INSTANCE = 'apollo-test';
     return ProjectBuilder.build();
   });
   test('удаление временных файлов', async () => {

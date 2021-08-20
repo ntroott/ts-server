@@ -72,6 +72,17 @@ export class ProjectBuilder {
   public static test(): Promise<void> {
     return ProjectBuilder.execShell('NODE_OPTIONS=--experimental-vm-modules yarn jest --color');
   }
+  public static async watch(): Promise<void> {
+    const dist = (await import('config')).default.get('build.outputDirs.dist') as string;
+    const output = appRoot.resolve(path.join(dist, process.env.NODE_APP_INSTANCE, 'index.js'));
+    const cmd1 = `yarn nodemon --inspect ${output}`;
+    const cmd2 =
+      `yarn webpack --watch --env NODE_ENV=${process.env.NODE_ENV} ` +
+      `--env NODE_APP_INSTANCE=${process.env.NODE_APP_INSTANCE} ` +
+      `--env FULL_BUILD=false`;
+    ProjectBuilder.execShell(cmd2).then();
+    ProjectBuilder.execShell(cmd1).then();
+  }
   private static execShell(cmd: string): Promise<void> {
     return new Promise((resolve, reject) => {
       shelljs.exec(cmd, (code, _stdout, stderr) => {

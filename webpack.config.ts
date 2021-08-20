@@ -17,7 +17,6 @@ import toYaml from 'json-to-pretty-yaml';
 import swaggerCombine from 'swagger-combine';
 import pck from '@/package.json';
 import { include } from '@/tsconfig.json';
-import * as process from 'process';
 
 export default async (env): Promise<Configuration> => {
   process.env.NODE_CONFIG_STRICT_MODE = 'true';
@@ -34,7 +33,7 @@ export default async (env): Promise<Configuration> => {
   const entry = appRoot.resolve(config.build.entry);
   let swgConf;
   if (config.build.swagger) {
-    swgConf = JSON.stringify(swaggerCombine(appRoot.resolve(config.build.swagger)));
+    swgConf = JSON.stringify(await swaggerCombine(appRoot.resolve(config.build.swagger)));
   } else {
     swgConf = JSON.stringify({});
   }
