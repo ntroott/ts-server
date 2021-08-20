@@ -26,14 +26,15 @@ export const buildDirs = (async () => {
   };
 })();
 export class ProjectBuilder {
-  public static async clean(): Promise<void[]> {
+  public static async clean(): Promise<void> {
     const rmdir = async (path: string): Promise<void> => {
       if (await fs.pathExists(path)) {
         await fs.rm(path, { recursive: true, maxRetries: 5, retryDelay: 1 });
       }
     };
     const dirs = await buildDirs;
-    return Promise.all([rmdir(dirs.dist), rmdir(dirs.coverage), rmdir(dirs.generatedSrc)]);
+    await Promise.all([rmdir(dirs.dist), rmdir(dirs.coverage), rmdir(dirs.generatedSrc)]);
+    return ProjectBuilder.generateSource();
   }
   public static async generateSource(): Promise<void> {
     const dirs = await buildDirs;
@@ -66,7 +67,7 @@ export class ProjectBuilder {
         .on('error', reject);
     });
     if (process.env.FULL_BUILD === 'true') {
-      return ProjectBuilder.execShell(`cd ${wbConf.output.path} && yarn`);
+      return ProjectBuilder.execShell(`cd ${wbConf.output.path} && yarn rebuild`, { silent: true });
     }
   }
   public static test(): Promise<void> {
@@ -83,9 +84,9 @@ export class ProjectBuilder {
     ProjectBuilder.execShell(cmd2).then();
     ProjectBuilder.execShell(cmd1).then();
   }
-  private static execShell(cmd: string): Promise<void> {
+  private static execShell(cmd: string, opts?: shelljs.ExecOptions): Promise<void> {
     return new Promise((resolve, reject) => {
-      shelljs.exec(cmd, (code, _stdout, stderr) => {
+      shelljs.exec(cmd, opts, (code, _stdout, stderr) => {
         if (!code) {
           resolve();
         } else {
