@@ -1,0 +1,27 @@
+FROM alpine:latest
+ENV TZ="Europe/Moscow"
+ENV MUSL_LOCPATH /usr/share/i18n/locales/musl
+
+RUN apk update && \
+    apk add --update --no-cache postgresql tzdata \
+    cmake make musl-dev gcc gettext-dev libintl
+
+RUN wget https://gitlab.com/rilian-la-te/musl-locales/-/archive/master/musl-locales-master.zip
+RUN unzip musl-locales-master.zip && cd musl-locales-master && \
+    cmake -DLOCALE_PROFILE=ru_RU.UTF8 -D CMAKE_INSTALL_PREFIX:PATH=/usr . && make && make install && \
+    cd .. && rm -r musl-locales-master
+
+RUN mkdir /run/postgresql && chown postgres:postgres /run/postgresql
+RUN mkdir /var/lib/postgresql/data && chmod 0700 /var/lib/postgresql/data && \
+    chown postgres:postgres /var/lib/postgresql/data
+
+USER postgres
+
+RUN initdb -D /var/lib/postgresql/data -E UTF8 --locale=ru_RU.UTF8
+RUN echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/data/pg_hba.conf
+RUN echo "listen_addresses='*'" >> /var/lib/postgresql/data/postgresql.conf
+RUN sed -i "s/'\/run\/postgresql,\/tmp'/'\/tmp'/" /var/lib/postgresql/data/postgresql.conf
+
+EXPOSE 5432
+ENTRYPOINT pg_ctl start -D /var/lib/postgresql/data/ && sh
+

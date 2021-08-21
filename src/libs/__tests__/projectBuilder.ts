@@ -8,7 +8,4 @@ describe('Test the root path', () => {
   test('удаление временных файлов', async () => {
     return ProjectBuilder.clean();
   });
-  test('генерация исходников', async () => {
-    return ProjectBuilder.generateSource();
-  });
 });

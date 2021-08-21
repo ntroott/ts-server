@@ -24,8 +24,6 @@ export default async (env): Promise<Configuration> => {
   process.env.NODE_ENV = NODE_ENV;
   const NODE_APP_INSTANCE = env.NODE_APP_INSTANCE || process.env.NODE_APP_INSTANCE;
   process.env.NODE_APP_INSTANCE = NODE_APP_INSTANCE;
-  const WEBPACK_BUNDLE = env.WEBPACK_BUNDLE || process.env.WEBPACK_BUNDLE;
-  process.env.WEBPACK_BUNDLE = WEBPACK_BUNDLE;
   const FULL_BUILD = env.FULL_BUILD || process.env.FULL_BUILD;
   process.env.FULL_BUILD = FULL_BUILD;
 
@@ -51,7 +49,7 @@ export default async (env): Promise<Configuration> => {
     optimization: {
       emitOnErrors: false,
     },
-    devtool: WEBPACK_BUNDLE ? 'cheap-module-source-map' : 'source-map',
+    devtool: false,
     output: {
       path: appRoot.resolve(path.join(config.build.outputDirs.dist, NODE_APP_INSTANCE)),
       filename: 'index.js',

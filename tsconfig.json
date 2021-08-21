@@ -11,7 +11,7 @@
     "diagnostics": true,
     "noEmitOnError": true,
     "outDir": "output",
-    "sourceMap": true,
+    "sourceMap": false,
     "resolveJsonModule": true,
     "importHelpers": true,
     "downlevelIteration": true,
@@ -34,12 +34,10 @@
     "baseUrl": "./",
     "paths": {
       "~/*": ["src/*"],
-      "~g/*": ["src/generated/*"],
       "~l/*": ["src/libs/*"],
       "@/*": ["./*"]
     },
     "types": ["node", "jest", "lodash"]
   },
-  "exclude": ["node_modules"],
   "include": ["*.ts", "src/**/*.ts","*.json", "src/**/*.json"]
 }

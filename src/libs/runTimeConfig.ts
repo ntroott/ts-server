@@ -11,7 +11,7 @@ export class RunTimeConfig {
     console.log('env = ' + process.env.NODE_ENV);
     console.log('description = ' + config.description);
   }
-  public static get(): import('~g/runTimeConfig').RunTimeConfig {
+  public static get() {
     return JSON.parse(process.env.NODE_CONFIG || '{}');
   }
 }

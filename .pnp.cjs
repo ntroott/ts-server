@@ -64,7 +64,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/mri", "npm:1.1.1"],
             ["@types/node", "npm:16.6.2"],
             ["@types/shelljs", "npm:0.8.9"],
-            ["@types/uuid", "npm:8.3.1"],
             ["@types/webpack", "npm:5.28.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:4.29.2"],
             ["@typescript-eslint/parser", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:4.29.2"],
@@ -102,7 +101,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["koa-logger", "npm:3.2.1"],
             ["koa-router", "npm:10.0.0"],
             ["lodash", "npm:4.17.21"],
-            ["maketypes", "npm:1.1.2"],
             ["mri", "npm:1.1.6"],
             ["nodemon", "npm:2.0.12"],
             ["pnp-webpack-plugin", "npm:1.7.0"],
@@ -117,7 +115,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tsconfig-paths", "npm:3.10.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"],
-            ["uuid", "npm:8.3.2"],
             ["webpack", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:5.51.1"],
             ["webpack-cli", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:4.8.0"],
             ["webpack-node-externals", "npm:3.0.0"],
@@ -3970,15 +3967,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-undertaker-registry-npm-1.0.1-eb85640750-aa064331b4.zip/node_modules/@types/undertaker-registry/",
           "packageDependencies": [
             ["@types/undertaker-registry", "npm:1.0.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@types/uuid", [
-        ["npm:8.3.1", {
-          "packageLocation": "./.yarn/cache/@types-uuid-npm-8.3.1-4239b14bac-b41bdc5e86.zip/node_modules/@types/uuid/",
-          "packageDependencies": [
-            ["@types/uuid", "npm:8.3.1"]
           ],
           "linkType": "HARD",
         }]
@@ -11818,16 +11806,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["maketypes", [
-        ["npm:1.1.2", {
-          "packageLocation": "./.yarn/cache/maketypes-npm-1.1.2-b438969221-8950d1324c.zip/node_modules/maketypes/",
-          "packageDependencies": [
-            ["maketypes", "npm:1.1.2"],
-            ["yargs", "npm:6.6.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["map-cache", [
         ["npm:0.2.2", {
           "packageLocation": "./.yarn/cache/map-cache-npm-0.2.2-1620199b05-3067cea542.zip/node_modules/map-cache/",
@@ -15509,7 +15487,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/mri", "npm:1.1.1"],
             ["@types/node", "npm:16.6.2"],
             ["@types/shelljs", "npm:0.8.9"],
-            ["@types/uuid", "npm:8.3.1"],
             ["@types/webpack", "npm:5.28.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:4.29.2"],
             ["@typescript-eslint/parser", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:4.29.2"],
@@ -15547,7 +15524,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["koa-logger", "npm:3.2.1"],
             ["koa-router", "npm:10.0.0"],
             ["lodash", "npm:4.17.21"],
-            ["maketypes", "npm:1.1.2"],
             ["mri", "npm:1.1.6"],
             ["nodemon", "npm:2.0.12"],
             ["pnp-webpack-plugin", "npm:1.7.0"],
@@ -15562,7 +15538,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tsconfig-paths", "npm:3.10.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"],
-            ["uuid", "npm:8.3.2"],
             ["webpack", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:5.51.1"],
             ["webpack-cli", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:4.8.0"],
             ["webpack-node-externals", "npm:3.0.0"],
@@ -16806,26 +16781,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:6.6.0", {
-          "packageLocation": "./.yarn/cache/yargs-npm-6.6.0-968b254641-8d2b876607.zip/node_modules/yargs/",
-          "packageDependencies": [
-            ["yargs", "npm:6.6.0"],
-            ["camelcase", "npm:3.0.0"],
-            ["cliui", "npm:3.2.0"],
-            ["decamelize", "npm:1.2.0"],
-            ["get-caller-file", "npm:1.0.3"],
-            ["os-locale", "npm:1.4.0"],
-            ["read-pkg-up", "npm:1.0.1"],
-            ["require-directory", "npm:2.1.1"],
-            ["require-main-filename", "npm:1.0.1"],
-            ["set-blocking", "npm:2.0.0"],
-            ["string-width", "npm:1.0.2"],
-            ["which-module", "npm:1.0.0"],
-            ["y18n", "npm:3.2.2"],
-            ["yargs-parser", "npm:4.2.1"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:7.1.2", {
           "packageLocation": "./.yarn/cache/yargs-npm-7.1.2-cbad9f754f-0c330ce133.zip/node_modules/yargs/",
           "packageDependencies": [
@@ -16852,14 +16807,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/yargs-parser-npm-20.2.9-a1d19e598d-8bb69015f2.zip/node_modules/yargs-parser/",
           "packageDependencies": [
             ["yargs-parser", "npm:20.2.9"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:4.2.1", {
-          "packageLocation": "./.yarn/cache/yargs-parser-npm-4.2.1-6bda0c6757-955f7cd7fa.zip/node_modules/yargs-parser/",
-          "packageDependencies": [
-            ["yargs-parser", "npm:4.2.1"],
-            ["camelcase", "npm:3.0.0"]
           ],
           "linkType": "HARD",
         }],

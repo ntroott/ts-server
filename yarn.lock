@@ -2492,13 +2492,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^8.3.1":
-  version: 8.3.1
-  resolution: "@types/uuid@npm:8.3.1"
-  checksum: b41bdc5e86c6f0f1899306be10455636da0f2168c9489b869edd6837ddeb7c0e501b1ff7d857402462986bada2a379125743dd895fa801d03437cd632116a373
-  languageName: node
-  linkType: hard
-
 "@types/vinyl-fs@npm:*":
   version: 2.4.12
   resolution: "@types/vinyl-fs@npm:2.4.12"
@@ -9181,17 +9174,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"maketypes@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "maketypes@npm:1.1.2"
-  dependencies:
-    yargs: ^6.5.0
-  bin:
-    make_types: ./index.js
-  checksum: 8950d1324c8a09188d2d4a722fa9a9ca44226cde9c028a166adb316823b6a4a7bba92c0dc78ed7ed79ad002f5fa62369c552e1ad9ab607b48449516e92ec2f0b
-  languageName: node
-  linkType: hard
-
 "map-cache@npm:^0.2.0, map-cache@npm:^0.2.2":
   version: 0.2.2
   resolution: "map-cache@npm:0.2.2"
@@ -12455,7 +12437,6 @@ fsevents@^1.2.7:
     "@types/mri": ^1.1.1
     "@types/node": ^16.6.2
     "@types/shelljs": ^0.8.9
-    "@types/uuid": ^8.3.1
     "@types/webpack": ^5.28.0
     "@typescript-eslint/eslint-plugin": ^4.29.2
     "@typescript-eslint/parser": ^4.29.2
@@ -12493,7 +12474,6 @@ fsevents@^1.2.7:
     koa-logger: ^3.2.1
     koa-router: ^10.0.0
     lodash: ^4.17.21
-    maketypes: ^1.1.2
     mri: ^1.1.6
     nodemon: ^2.0.12
     pnp-webpack-plugin: ^1.7.0
@@ -12508,7 +12488,6 @@ fsevents@^1.2.7:
     tsconfig-paths: ^3.10.1
     tslib: ^2.3.1
     typescript: ^4.3.5
-    uuid: ^8.3.2
     webpack: ^5.51.1
     webpack-cli: ^4.8.0
     webpack-node-externals: ^3.0.0
@@ -12927,7 +12906,7 @@ typescript@^4.3.5:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.0.0, uuid@npm:^8.3.2":
+"uuid@npm:^8.0.0":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
@@ -13554,15 +13533,6 @@ typescript@^4.3.5:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:^4.2.0":
-  version: 4.2.1
-  resolution: "yargs-parser@npm:4.2.1"
-  dependencies:
-    camelcase: ^3.0.0
-  checksum: 955f7cd7fa25ee559ea4f3a4bfc5961ae38b340b32ff58834d043b4145c03f8d6a8891b31d258d55f63fb3c81415943e13f1dd45cef9bba05d2303e25e811030
-  languageName: node
-  linkType: hard
-
 "yargs-parser@npm:^5.0.1":
   version: 5.0.1
   resolution: "yargs-parser@npm:5.0.1"
@@ -13585,27 +13555,6 @@ typescript@^4.3.5:
     y18n: ^5.0.5
     yargs-parser: ^20.2.2
   checksum: b14afbb51e3251a204d81937c86a7e9d4bdbf9a2bcee38226c900d00f522969ab675703bee2a6f99f8e20103f608382936034e64d921b74df82b63c07c5e8f59
-  languageName: node
-  linkType: hard
-
-"yargs@npm:^6.5.0":
-  version: 6.6.0
-  resolution: "yargs@npm:6.6.0"
-  dependencies:
-    camelcase: ^3.0.0
-    cliui: ^3.2.0
-    decamelize: ^1.1.1
-    get-caller-file: ^1.0.1
-    os-locale: ^1.4.0
-    read-pkg-up: ^1.0.1
-    require-directory: ^2.1.1
-    require-main-filename: ^1.0.1
-    set-blocking: ^2.0.0
-    string-width: ^1.0.2
-    which-module: ^1.0.0
-    y18n: ^3.2.1
-    yargs-parser: ^4.2.0
-  checksum: 8d2b8766071e2b049ee3d919c6165f2dca4586d0e131cc4f48eab0f8149aaad57f5c53fa9bf40f6d209aca75ae98347745d66411e66bd12c95a5f7eeb85d5081
   languageName: node
   linkType: hard
 

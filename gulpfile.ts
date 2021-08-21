@@ -12,8 +12,8 @@ process.env.FULL_BUILD = args.build || process.env.FULL_BUILD || 'true';
 
 import { ProjectBuilder } from '~l/projectBuilder';
 gulp.task('clean', ProjectBuilder.clean);
-gulp.task('generate-source', ProjectBuilder.generateSource);
 gulp.task('build', ProjectBuilder.build);
 gulp.task('test', ProjectBuilder.test);
 gulp.task('watch', ProjectBuilder.watch);
 gulp.task('build-docker-image', ProjectBuilder.buildDockerImage);
+gulp.task('postgres-up', ProjectBuilder.postgresUp);

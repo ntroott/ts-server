@@ -1,0 +1,25 @@
+FROM node:current-alpine3.14
+ENV TZ="Europe/Moscow"
+ENV PYTHONUNBUFFERED=1
+ENV MUSL_LOCPATH /usr/share/i18n/locales/musl
+
+ARG NODE_ENV
+ARG NODE_APP_INSTANCE
+ARG DIST
+
+RUN apk update && \
+    apk add --update --no-cache python3 make g++ tzdata \
+    cmake musl-dev gcc gettext-dev libintl
+
+RUN wget https://gitlab.com/rilian-la-te/musl-locales/-/archive/master/musl-locales-master.zip
+RUN unzip musl-locales-master.zip && cd musl-locales-master && \
+    cmake -DLOCALE_PROFILE=ru_RU.UTF8 -D CMAKE_INSTALL_PREFIX:PATH=/usr . && make && make install && \
+    cd .. && rm -r musl-locales-master
+
+RUN ln -sf python3 /usr/bin/python
+WORKDIR /app
+COPY ./$DIST/$NODE_APP_INSTANCE/ .
+RUN yarn
+
+EXPOSE 3000
+ENTRYPOINT yarn node index.js
