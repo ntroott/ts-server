@@ -37,7 +37,7 @@
       "~l/*": ["src/libs/*"],
       "@/*": ["./*"]
     },
-    "types": ["node", "jest", "lodash"]
+    "types": ["node", "jest"]
   },
   "include": ["*.ts", "src/**/*.ts","*.json", "src/**/*.json", "config/*.ts"]
 }
