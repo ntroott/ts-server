@@ -6,9 +6,10 @@ export default {
   },
   dbConfig: {
     host: 'localhost',
-    port: 5984,
-    dbName: 'customers',
-    user: 'admin',
-    pass: '12345',
+    port: 5432,
+    username: 'admin',
+    password: '12345',
+    //database: 'database_development',
+    //dialect: 'mysql',
   },
 };

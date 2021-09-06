@@ -2,7 +2,6 @@ import { RunTimeConfig } from '~l/runTimeConfig';
 RunTimeConfig.set('apollo-test');
 import { ApolloServer, gql } from 'apollo-server-koa';
 import { ApolloServerPluginInlineTrace } from 'apollo-server-core';
-import _ from 'lodash';
 import Koa from 'koa';
 
 const typeDefs = gql`
@@ -28,8 +27,8 @@ const books = [
 ];
 const resolvers = {
   Query: {
-    booksByAuthors: (_parent, args) => _.filter(books, (item) => item.author === args.author),
-    booksByTitles: (_parent, args) => _.filter(books, (item) => item.title === args.title),
+    booksByAuthors: (_parent, args) => books.filter((item) => item.author === args.author),
+    booksByTitles: (_parent, args) => books.filter((item) => item.title === args.title),
   },
 };
 const startApolloServer = async (typeDefs, resolvers) => {

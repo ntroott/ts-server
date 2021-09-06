@@ -7,9 +7,14 @@ import shelljs from 'shelljs';
 import wbConfig from '@/webpack.config';
 import path from 'path';
 import webpack from 'webpack';
-import defConf from '@/config/default';
+import defConf, { getDockerfilePath } from '@/config/default';
 
 export class ProjectBuilder {
+  public static async getProjectNameList(): Promise<string[]> {
+    return (await fs.readdir(appRoot.resolve('config')))
+      .filter((item) => /^default-/.test(item))
+      .map((item) => item.replace(/^default-/, '').replace(/\.ts$/, ''));
+  }
   public static get buildCfg() {
     return defConf.build;
   }
@@ -69,27 +74,29 @@ export class ProjectBuilder {
   }
   public static async buildDockerImage(): Promise<string> {
     await ProjectBuilder.build();
-    const { dockerfiles, outputDirs } = ProjectBuilder.buildCfg;
+    const { dockerfile, outputDirs } = (await import('config')).default.util.toObject().build;
     const cmd =
       `docker build --tag ${process.env.NODE_ENV}-${process.env.NODE_APP_INSTANCE} ` +
       `--build-arg NODE_ENV=${process.env.NODE_ENV} ` +
       `--build-arg NODE_APP_INSTANCE=${process.env.NODE_APP_INSTANCE} ` +
       `--build-arg DIST=${outputDirs.dist} ` +
-      ` -f ${appRoot.resolve(dockerfiles.main)} .`;
+      ` -f ${appRoot.resolve(dockerfile)} .`;
     return ProjectBuilder.execShell(cmd);
   }
   public static async postgresUp(): Promise<void> {
     process.env.NODE_ENV = 'development';
-    const conf = ProjectBuilder.buildCfg;
+    process.env.NODE_APP_INSTANCE = (await ProjectBuilder.getProjectNameList())[0];
+    const { dbConfig } = (await import('config')).default.util.toObject();
     let cmd = `docker build --tag dev-postgres-db -f ${appRoot.resolve(
-      conf.dockerfiles.postgres
+      getDockerfilePath('postgres')
     )} .`;
     await ProjectBuilder.execShell(cmd);
-    cmd = `docker run --name dev-postgres-db -i -d -p 5432:5432 dev-postgres-db `;
+    cmd = `docker run --name dev-postgres-db -i -d -p ${dbConfig.port}:5432 dev-postgres-db `;
     await ProjectBuilder.execShell(cmd);
     cmd =
       `docker exec -i -u postgres dev-postgres-db sh -c ` +
-      `"psql --command \\"CREATE USER admin WITH SUPERUSER PASSWORD '12345';\\""`;
+      `"psql --command \\"CREATE USER ${dbConfig.username} ` +
+      `WITH SUPERUSER PASSWORD '${dbConfig.password}';\\""`;
     await ProjectBuilder.execShell(cmd);
   }
 }

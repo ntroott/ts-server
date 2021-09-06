@@ -39,5 +39,5 @@
     },
     "types": ["node", "jest", "lodash"]
   },
-  "include": ["*.ts", "src/**/*.ts","*.json", "src/**/*.json"]
+  "include": ["*.ts", "src/**/*.ts","*.json", "src/**/*.json", "config/*.ts"]
 }

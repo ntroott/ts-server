@@ -1,4 +1,4 @@
-export default {
+const def = {
   monitoring: {
     url: 'http://localhost:8200',
     captureBody: 'all',
@@ -15,3 +15,7 @@ export default {
     },
   },
 };
+
+export const getDockerfilePath = (dockerfile: keyof typeof def.build.dockerfiles): string =>
+  def.build.dockerfiles[dockerfile];
+export default def;
