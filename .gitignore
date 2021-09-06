@@ -10,3 +10,4 @@
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+/src/projects/koa-test/sequelize/config/config.json

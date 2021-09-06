@@ -83,7 +83,7 @@ export class ProjectBuilder {
       ` -f ${appRoot.resolve(dockerfile)} .`;
     return ProjectBuilder.execShell(cmd);
   }
-  public static async postgresUp(): Promise<void> {
+  public static async postgresUp(): Promise<string> {
     process.env.NODE_ENV = 'development';
     process.env.NODE_APP_INSTANCE = (await ProjectBuilder.getProjectNameList())[0];
     const { dbConfig } = (await import('config')).default.util.toObject();
@@ -97,6 +97,25 @@ export class ProjectBuilder {
       `docker exec -i -u postgres dev-postgres-db sh -c ` +
       `"psql --command \\"CREATE USER ${dbConfig.username} ` +
       `WITH SUPERUSER PASSWORD '${dbConfig.password}';\\""`;
+    return ProjectBuilder.execShell(cmd);
+  }
+  public static async dbMigrate(): Promise<void> {
+    const { dbConfig, build } = (await import('config')).default.util.toObject();
+    const seqRoot = appRoot.resolve(build.sequelizeRoot);
+    let cmd =
+      `docker exec -i -u postgres dev-postgres-db sh -c ` +
+      `"echo \\"SELECT 'CREATE DATABASE ${dbConfig.database} WITH OWNER=${dbConfig.username}' ` +
+      `WHERE NOT EXISTS ` +
+      `(SELECT FROM pg_database WHERE datname = '${dbConfig.database}')\\gexec\\" | psql"`;
+    await ProjectBuilder.execShell(cmd);
+    const seqConfigDir = path.resolve(seqRoot, 'config');
+    if (!(await fs.pathExists(seqConfigDir))) {
+      await fs.mkdir(seqConfigDir);
+    }
+    await fs.writeJSON(path.resolve(seqConfigDir, 'config.json'), {
+      [process.env.NODE_ENV]: dbConfig,
+    });
+    cmd = `cd ${seqRoot} && NODE_ENV=${process.env.NODE_ENV} yarn sequelize-cli db:migrate`;
     await ProjectBuilder.execShell(cmd);
   }
 }

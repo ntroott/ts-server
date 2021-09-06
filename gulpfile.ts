@@ -17,3 +17,4 @@ gulp.task('test', ProjectBuilder.test);
 gulp.task('watch', ProjectBuilder.watch);
 gulp.task('build-docker-image', ProjectBuilder.buildDockerImage);
 gulp.task('postgres-up', ProjectBuilder.postgresUp);
+gulp.task('db-migrate', ProjectBuilder.dbMigrate);

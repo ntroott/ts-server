@@ -8,4 +8,7 @@ export default {
     sequelizeRoot: 'src/projects/koa-test/sequelize',
     dockerfile: getDockerfilePath('main'),
   },
+  dbConfig: {
+    database: 'koa_test',
+  },
 };

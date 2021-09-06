@@ -5,11 +5,10 @@ export default {
     ignoreUrls: ['/ping'],
   },
   dbConfig: {
-    host: 'localhost',
-    port: 5432,
     username: 'admin',
     password: '12345',
-    //database: 'database_development',
-    //dialect: 'mysql',
+    host: '127.0.0.1',
+    port: 5432,
+    dialect: 'postgres',
   },
 };
