@@ -10,17 +10,9 @@ import webpack from 'webpack';
 import defConf, { getDockerfilePath } from '@/config/default';
 
 export class ProjectBuilder {
-  /*
-  private readonly env: string;
-  private readonly app: string;
-  constructor(env: string, app: string) {
-    this.env = env;
-    this.app = app;
-  }
-   */
   public static async getProjectNameList(): Promise<string[]> {
     return (await fs.readdir(appRoot.resolve('config')))
-      .filter((item) => /^default-/.test(item))
+      .filter((item) => /^default-.*\.ts$/.test(item))
       .map((item) => item.replace(/^default-/, '').replace(/\.ts$/, ''));
   }
   public static get buildCfg() {
@@ -107,15 +99,9 @@ export class ProjectBuilder {
       `WITH SUPERUSER PASSWORD '${dbConfig.password}';\\""`;
     return ProjectBuilder.execShell(cmd);
   }
-  public static async dbMigrate(): Promise<void> {
+  private static async generateSeqConfig() {
     const { dbConfig, build } = (await import('config')).default.util.toObject();
     const seqRoot = appRoot.resolve(build.sequelizeRoot);
-    let cmd =
-      `docker exec -i -u postgres dev-postgres-db sh -c ` +
-      `"echo \\"SELECT 'CREATE DATABASE ${dbConfig.database} WITH OWNER=${dbConfig.username}' ` +
-      `WHERE NOT EXISTS ` +
-      `(SELECT FROM pg_database WHERE datname = '${dbConfig.database}')\\gexec\\" | psql"`;
-    await ProjectBuilder.execShell(cmd);
     const seqConfigDir = path.resolve(seqRoot, 'config');
     if (!(await fs.pathExists(seqConfigDir))) {
       await fs.mkdir(seqConfigDir);
@@ -123,10 +109,22 @@ export class ProjectBuilder {
     await fs.writeJSON(path.resolve(seqConfigDir, 'config.json'), {
       [process.env.NODE_ENV]: dbConfig,
     });
+    return { seqRoot, dbConfig };
+  }
+  public static async dbMigrate(): Promise<void> {
+    const { seqRoot, dbConfig } = await ProjectBuilder.generateSeqConfig();
+    let cmd =
+      `docker exec -i -u postgres dev-postgres-db sh -c ` +
+      `"echo \\"SELECT 'CREATE DATABASE ${dbConfig.database} WITH OWNER=${dbConfig.username}' ` +
+      `WHERE NOT EXISTS ` +
+      `(SELECT FROM pg_database WHERE datname = '${dbConfig.database}')\\gexec\\" | psql"`;
+    await ProjectBuilder.execShell(cmd);
     cmd = `cd ${seqRoot} && NODE_ENV=${process.env.NODE_ENV} yarn sequelize-cli db:migrate`;
     await ProjectBuilder.execShell(cmd);
   }
-  //public static async dbMigrateUndo(): Promise<void> {
-  //const cmd = ``
-  //}
+  public static async dbMigrateUndo(): Promise<string> {
+    const { seqRoot } = await ProjectBuilder.generateSeqConfig();
+    const cmd = `cd ${seqRoot} && NODE_ENV=${process.env.NODE_ENV} yarn sequelize-cli db:migrate:undo`;
+    return ProjectBuilder.execShell(cmd);
+  }
 }
