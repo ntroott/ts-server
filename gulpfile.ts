@@ -19,3 +19,5 @@ gulp.task('build-docker-image', ProjectBuilder.buildDockerImage);
 gulp.task('postgres-up', ProjectBuilder.postgresUp);
 gulp.task('db-migrate', ProjectBuilder.dbMigrate);
 gulp.task('db-migrate-undo', ProjectBuilder.dbMigrateUndo);
+gulp.task('db-seed-all', ProjectBuilder.dbSeedAll);
+gulp.task('db-seed-undo-all', ProjectBuilder.dbSeedUndoAll);

@@ -111,20 +111,31 @@ export class ProjectBuilder {
     });
     return { seqRoot, dbConfig };
   }
+  private static async sendCommandToSeq(seqRoot: string, cmd: string): Promise<string> {
+    return ProjectBuilder.execShell(
+      `cd ${seqRoot} && NODE_ENV=${process.env.NODE_ENV} yarn sequelize-cli ${cmd}`
+    );
+  }
   public static async dbMigrate(): Promise<void> {
     const { seqRoot, dbConfig } = await ProjectBuilder.generateSeqConfig();
-    let cmd =
+    const cmd =
       `docker exec -i -u postgres dev-postgres-db sh -c ` +
       `"echo \\"SELECT 'CREATE DATABASE ${dbConfig.database} WITH OWNER=${dbConfig.username}' ` +
       `WHERE NOT EXISTS ` +
       `(SELECT FROM pg_database WHERE datname = '${dbConfig.database}')\\gexec\\" | psql"`;
     await ProjectBuilder.execShell(cmd);
-    cmd = `cd ${seqRoot} && NODE_ENV=${process.env.NODE_ENV} yarn sequelize-cli db:migrate`;
-    await ProjectBuilder.execShell(cmd);
+    await ProjectBuilder.sendCommandToSeq(seqRoot, 'db:migrate');
   }
   public static async dbMigrateUndo(): Promise<string> {
     const { seqRoot } = await ProjectBuilder.generateSeqConfig();
-    const cmd = `cd ${seqRoot} && NODE_ENV=${process.env.NODE_ENV} yarn sequelize-cli db:migrate:undo`;
-    return ProjectBuilder.execShell(cmd);
+    return ProjectBuilder.sendCommandToSeq(seqRoot, 'db:migrate:undo');
+  }
+  public static async dbSeedAll(): Promise<string> {
+    const { seqRoot } = await ProjectBuilder.generateSeqConfig();
+    return ProjectBuilder.sendCommandToSeq(seqRoot, 'db:seed:all');
+  }
+  public static async dbSeedUndoAll(): Promise<string> {
+    const { seqRoot } = await ProjectBuilder.generateSeqConfig();
+    return ProjectBuilder.sendCommandToSeq(seqRoot, 'db:seed:undo:all');
   }
 }

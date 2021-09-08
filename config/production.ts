@@ -1,9 +1,4 @@
 export default {
-  monitoring: {
-    url: 'http://localhost:8200',
-    captureBody: 'all',
-    ignoreUrls: ['/ping'],
-  },
   dbConfig: {
     username: 'admin',
     password: '12345',
