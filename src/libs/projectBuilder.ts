@@ -10,6 +10,14 @@ import webpack from 'webpack';
 import defConf, { getDockerfilePath } from '@/config/default';
 
 export class ProjectBuilder {
+  /*
+  private readonly env: string;
+  private readonly app: string;
+  constructor(env: string, app: string) {
+    this.env = env;
+    this.app = app;
+  }
+   */
   public static async getProjectNameList(): Promise<string[]> {
     return (await fs.readdir(appRoot.resolve('config')))
       .filter((item) => /^default-/.test(item))
@@ -118,4 +126,7 @@ export class ProjectBuilder {
     cmd = `cd ${seqRoot} && NODE_ENV=${process.env.NODE_ENV} yarn sequelize-cli db:migrate`;
     await ProjectBuilder.execShell(cmd);
   }
+  //public static async dbMigrateUndo(): Promise<void> {
+  //const cmd = ``
+  //}
 }
