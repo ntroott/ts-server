@@ -2,35 +2,39 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Author', {
+    await queryInterface.createTable('Author', {
+      id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      firstName: Sequelize.DataTypes.STRING,
+      lastName: Sequelize.DataTypes.STRING,
+      middleName: Sequelize.DataTypes.STRING,
+      birthDate: Sequelize.DataTypes.DATE,
+    });
+    return queryInterface.createTable('Book', {
       id: {
         type: Sequelize.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
       name: Sequelize.DataTypes.STRING,
-      isBetaMember: {
-        type: Sequelize.DataTypes.BOOLEAN,
-        defaultValue: false,
-        allowNull: false,
-      },
-      /*
-      userId: {
+      authorId: {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: {
-            tableName: 'users',
-            schema: 'schema',
+            tableName: 'Author',
           },
           key: 'id',
         },
         allowNull: false,
       },
-       */
     });
   },
 
   down: async (queryInterface, _Sequelize) => {
+    await queryInterface.dropTable('Book');
     return queryInterface.dropTable('Author');
   },
 };
