@@ -64,6 +64,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.6.2"],
             ["@types/pg", "npm:8.6.1"],
             ["@types/shelljs", "npm:0.8.9"],
+            ["@types/validator", "npm:13.6.3"],
             ["@types/webpack", "npm:5.28.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:4.29.2"],
             ["@typescript-eslint/parser", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:4.29.2"],
@@ -110,6 +111,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["reflect-metadata", "npm:0.1.13"],
             ["sequelize", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:6.6.5"],
             ["sequelize-cli", "npm:6.2.0"],
+            ["sequelize-typescript", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:2.1.0"],
             ["shelljs", "npm:0.8.4"],
             ["swagger-combine", "npm:1.3.0"],
             ["swagger2", "npm:3.0.0"],
@@ -3973,6 +3975,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-undertaker-registry-npm-1.0.1-eb85640750-aa064331b4.zip/node_modules/@types/undertaker-registry/",
           "packageDependencies": [
             ["@types/undertaker-registry", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/validator", [
+        ["npm:13.6.3", {
+          "packageLocation": "./.yarn/cache/@types-validator-npm-13.6.3-0b5e64903d-b06b684d4d.zip/node_modules/@types/validator/",
+          "packageDependencies": [
+            ["@types/validator", "npm:13.6.3"]
           ],
           "linkType": "HARD",
         }]
@@ -9076,6 +9087,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["glob", [
+        ["npm:7.1.6", {
+          "packageLocation": "./.yarn/cache/glob-npm-7.1.6-1ce3a5189a-351d549dd9.zip/node_modules/glob/",
+          "packageDependencies": [
+            ["glob", "npm:7.1.6"],
+            ["fs.realpath", "npm:1.0.0"],
+            ["inflight", "npm:1.0.6"],
+            ["inherits", "npm:2.0.4"],
+            ["minimatch", "npm:3.0.4"],
+            ["once", "npm:1.4.0"],
+            ["path-is-absolute", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:7.1.7", {
           "packageLocation": "./.yarn/cache/glob-npm-7.1.7-5698ad9c48-b61f48973b.zip/node_modules/glob/",
           "packageDependencies": [
@@ -14669,6 +14693,37 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["sequelize-typescript", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/sequelize-typescript-npm-2.1.0-d502e184a1-e2374c56ca.zip/node_modules/sequelize-typescript/",
+          "packageDependencies": [
+            ["sequelize-typescript", "npm:2.1.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:2.1.0", {
+          "packageLocation": "./.yarn/__virtual__/sequelize-typescript-virtual-445c67e134/0/cache/sequelize-typescript-npm-2.1.0-d502e184a1-e2374c56ca.zip/node_modules/sequelize-typescript/",
+          "packageDependencies": [
+            ["sequelize-typescript", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:2.1.0"],
+            ["@types/node", "npm:16.6.2"],
+            ["@types/reflect-metadata", null],
+            ["@types/sequelize", null],
+            ["@types/validator", "npm:13.6.3"],
+            ["glob", "npm:7.1.6"],
+            ["reflect-metadata", "npm:0.1.13"],
+            ["sequelize", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:6.6.5"]
+          ],
+          "packagePeers": [
+            "@types/node",
+            "@types/reflect-metadata",
+            "@types/sequelize",
+            "@types/validator",
+            "reflect-metadata",
+            "sequelize"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["serialize-javascript", [
         ["npm:4.0.0", {
           "packageLocation": "./.yarn/cache/serialize-javascript-npm-4.0.0-b4aeff413b-3273b3394b.zip/node_modules/serialize-javascript/",
@@ -15982,6 +16037,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.6.2"],
             ["@types/pg", "npm:8.6.1"],
             ["@types/shelljs", "npm:0.8.9"],
+            ["@types/validator", "npm:13.6.3"],
             ["@types/webpack", "npm:5.28.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:4.29.2"],
             ["@typescript-eslint/parser", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:4.29.2"],
@@ -16028,6 +16084,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["reflect-metadata", "npm:0.1.13"],
             ["sequelize", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:6.6.5"],
             ["sequelize-cli", "npm:6.2.0"],
+            ["sequelize-typescript", "virtual:feb41af514333df76dd45d78d1887a8b486f00588756f7a90663a6003c15ec0f6963ed9789a32c945f24aba3be26e4ffaf2cd1c49839c983121aeb52cb6c97d8#npm:2.1.0"],
             ["shelljs", "npm:0.8.4"],
             ["swagger-combine", "npm:1.3.0"],
             ["swagger2", "npm:3.0.0"],

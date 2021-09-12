@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Author', {
+    await queryInterface.createTable('Authors', {
       id: {
         type: Sequelize.DataTypes.INTEGER,
         primaryKey: true,
@@ -12,29 +12,46 @@ module.exports = {
       lastName: Sequelize.DataTypes.STRING,
       middleName: Sequelize.DataTypes.STRING,
       birthDate: Sequelize.DataTypes.DATE,
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
     });
-    return queryInterface.createTable('Book', {
+    return queryInterface.createTable('Books', {
       id: {
         type: Sequelize.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
       name: Sequelize.DataTypes.STRING,
+      publicationYear: Sequelize.DataTypes.INTEGER,
       authorId: {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: {
-            tableName: 'Author',
+            tableName: 'Authors',
           },
           key: 'id',
         },
         allowNull: false,
       },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
     });
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable('Book');
-    return queryInterface.dropTable('Author');
+    await queryInterface.dropTable('Books');
+    return queryInterface.dropTable('Authors');
   },
 };

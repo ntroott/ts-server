@@ -41,5 +41,5 @@
   "plugins": [
     "security"
   ],
-  "ignorePatterns": ["node_modules"]
+  "ignorePatterns": ["node_modules", "**/*.js"]
 }
