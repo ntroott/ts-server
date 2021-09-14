@@ -2421,7 +2421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^2.1.5":
+"@types/prettier@npm:^2.1.5, @types/prettier@npm:^2.3.2":
   version: 2.3.2
   resolution: "@types/prettier@npm:2.3.2"
   checksum: c4313e16650811f47b07a0fa7ac0742e966f61283a7292eb667fd4626d760bf3b7d896be3eaabb3354ad45fdbe3a340299b018dd3bcce1ff753d030a8cd2479c
@@ -12899,6 +12899,7 @@ fsevents@^1.2.7:
     "@types/mri": ^1.1.1
     "@types/node": ^16.6.2
     "@types/pg": ^8
+    "@types/prettier": ^2.3.2
     "@types/shelljs": ^0.8.9
     "@types/validator": ^13.6.3
     "@types/webpack": ^5.28.0

@@ -8,6 +8,8 @@ import wbConfig from '@/webpack.config';
 import path from 'path';
 import webpack from 'webpack';
 import defConf, { getDockerfilePath } from '@/config/default';
+import prettier from 'prettier';
+import extend from 'deep-extend';
 
 export class ProjectBuilder {
   public static async getProjectNameList(): Promise<string[]> {
@@ -99,43 +101,44 @@ export class ProjectBuilder {
       `WITH SUPERUSER PASSWORD '${dbConfig.password}';\\""`;
     return ProjectBuilder.execShell(cmd);
   }
-  private static async generateSeqConfig() {
-    const { dbConfig, build } = (await import('config')).default.util.toObject();
-    const seqRoot = appRoot.resolve(build.sequelizeRoot);
-    const seqConfigDir = path.resolve(seqRoot, 'config');
-    if (!(await fs.pathExists(seqConfigDir))) {
-      await fs.mkdir(seqConfigDir);
-    }
-    await fs.writeJSON(path.resolve(seqConfigDir, 'config.json'), {
-      [process.env.NODE_ENV]: dbConfig,
-    });
-    return { seqRoot, dbConfig };
-  }
-  private static async sendCommandToSeq(seqRoot: string, cmd: string): Promise<string> {
-    return ProjectBuilder.execShell(
-      `cd ${seqRoot} && NODE_ENV=${process.env.NODE_ENV} yarn sequelize-cli ${cmd}`
-    );
+  private static async sendCommandToSeq(cmd: string): Promise<string> {
+    await ProjectBuilder.generateSequelizerc();
+    return ProjectBuilder.execShell(`NODE_ENV=${process.env.NODE_ENV} yarn sequelize-cli ${cmd}`);
   }
   public static async dbMigrate(): Promise<void> {
-    const { seqRoot, dbConfig } = await ProjectBuilder.generateSeqConfig();
+    const { dbConfig } = (await import('config')).default.util.toObject();
     const cmd =
       `docker exec -i -u postgres dev-postgres-db sh -c ` +
       `"echo \\"SELECT 'CREATE DATABASE ${dbConfig.database} WITH OWNER=${dbConfig.username}' ` +
       `WHERE NOT EXISTS ` +
       `(SELECT FROM pg_database WHERE datname = '${dbConfig.database}')\\gexec\\" | psql"`;
     await ProjectBuilder.execShell(cmd);
-    await ProjectBuilder.sendCommandToSeq(seqRoot, 'db:migrate');
+    await ProjectBuilder.sendCommandToSeq('db:migrate');
   }
   public static async dbMigrateUndo(): Promise<string> {
-    const { seqRoot } = await ProjectBuilder.generateSeqConfig();
-    return ProjectBuilder.sendCommandToSeq(seqRoot, 'db:migrate:undo');
+    return ProjectBuilder.sendCommandToSeq('db:migrate:undo');
   }
   public static async dbSeedAll(): Promise<string> {
-    const { seqRoot } = await ProjectBuilder.generateSeqConfig();
-    return ProjectBuilder.sendCommandToSeq(seqRoot, 'db:seed:all');
+    return ProjectBuilder.sendCommandToSeq('db:seed:all');
   }
   public static async dbSeedUndoAll(): Promise<string> {
-    const { seqRoot } = await ProjectBuilder.generateSeqConfig();
-    return ProjectBuilder.sendCommandToSeq(seqRoot, 'db:seed:undo:all');
+    return ProjectBuilder.sendCommandToSeq('db:seed:undo:all');
+  }
+  public static async generateSequelizerc(): Promise<void> {
+    const seqRoot = appRoot.resolve(
+      (await import('config')).default.util.toObject().build.sequelizeRoot
+    );
+    const code = `
+      module.exports = {
+        'config': '${path.resolve(seqRoot, 'config.js')}',
+        'models-path': '${path.resolve(seqRoot, 'models')}',
+        'seeders-path': '${path.resolve(seqRoot, 'seeders')}',
+        'migrations-path': '${path.resolve(seqRoot, 'migrations')}'
+      };
+      `;
+    await fs.writeFile(
+      appRoot.resolve('.sequelizerc'),
+      prettier.format(code, extend(await prettier.resolveConfig('.'), { parser: 'babel' }))
+    );
   }
 }
