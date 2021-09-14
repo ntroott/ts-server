@@ -103,7 +103,11 @@ export class ProjectBuilder {
   }
   private static async sendCommandToSeq(cmd: string): Promise<string> {
     await ProjectBuilder.generateSequelizerc();
-    return ProjectBuilder.execShell(`NODE_ENV=${process.env.NODE_ENV} yarn sequelize-cli ${cmd}`);
+    return ProjectBuilder.execShell(
+      `NODE_ENV=${process.env.NODE_ENV} NODE_APP_INSTANCE=${process.env.NODE_APP_INSTANCE} ` +
+        `NODE_CONFIG_STRICT_MODE=true ` +
+        `yarn sequelize-cli ${cmd}`
+    );
   }
   public static async dbMigrate(): Promise<void> {
     const { dbConfig } = (await import('config')).default.util.toObject();
@@ -129,6 +133,7 @@ export class ProjectBuilder {
       (await import('config')).default.util.toObject().build.sequelizeRoot
     );
     const code = `
+      require('@babel/register');
       module.exports = {
         'config': '${path.resolve(seqRoot, 'config.js')}',
         'models-path': '${path.resolve(seqRoot, 'models')}',

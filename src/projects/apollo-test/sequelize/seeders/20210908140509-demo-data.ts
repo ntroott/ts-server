@@ -1,7 +1,7 @@
-'use strict';
+import { QueryInterface } from 'sequelize';
 
-module.exports = {
-  up: async (queryInterface) => {
+export default {
+  up: async (queryInterface: QueryInterface) => {
     await queryInterface.bulkInsert(
       'Authors',
       [
@@ -62,7 +62,7 @@ module.exports = {
     );
   },
 
-  down: async (queryInterface) => {
+  down: async (queryInterface: QueryInterface) => {
     await queryInterface.bulkDelete('Books', null, {});
     await queryInterface.bulkDelete('Authors', null, {});
   },

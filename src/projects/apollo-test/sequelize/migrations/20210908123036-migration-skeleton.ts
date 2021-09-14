@@ -1,36 +1,36 @@
-'use strict';
+import { QueryInterface, DataTypes } from 'sequelize';
 
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
+export default {
+  up: async (queryInterface: QueryInterface, dataTypes: typeof DataTypes) => {
     await queryInterface.createTable('Authors', {
       id: {
-        type: Sequelize.DataTypes.INTEGER,
+        type: dataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      firstName: Sequelize.DataTypes.STRING,
-      lastName: Sequelize.DataTypes.STRING,
-      middleName: Sequelize.DataTypes.STRING,
-      birthDate: Sequelize.DataTypes.DATE,
+      firstName: dataTypes.STRING,
+      lastName: dataTypes.STRING,
+      middleName: dataTypes.STRING,
+      birthDate: dataTypes.DATE,
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: dataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: dataTypes.DATE,
       },
     });
     return queryInterface.createTable('Books', {
       id: {
-        type: Sequelize.DataTypes.INTEGER,
+        type: dataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      name: Sequelize.DataTypes.STRING,
-      publicationYear: Sequelize.DataTypes.INTEGER,
+      name: dataTypes.STRING,
+      publicationYear: dataTypes.INTEGER,
       authorId: {
-        type: Sequelize.DataTypes.INTEGER,
+        type: dataTypes.INTEGER,
         references: {
           model: {
             tableName: 'Authors',
@@ -41,16 +41,16 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: dataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: dataTypes.DATE,
       },
     });
   },
 
-  down: async (queryInterface) => {
+  down: async (queryInterface: QueryInterface) => {
     await queryInterface.dropTable('Books');
     return queryInterface.dropTable('Authors');
   },
