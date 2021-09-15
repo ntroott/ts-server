@@ -30,7 +30,7 @@ export const addPingToSwagger = (doc: swagger.Document): swagger.Document => {
   return doc;
 };
 
-export const addPingToRouter = (router: Router): Router => {
+export const addPingToRouter = (router?: Router): Router => {
   return router.get('/ping', (ctx) => {
     ctx.response.body = 'pong';
     ctx.status = 200;
@@ -54,25 +54,30 @@ export const setSwaggerConfig = async (app: Koa): Promise<Koa> => {
     if (process.env.WEBPACK_BUNDLE) {
       doc = JSON.parse(process.env.SWAGGER_CONFIG);
     } else {
-      doc = yaml.load(await fs.readFile(appRoot.resolve(swgConf), 'utf-8')) as swagger.Document;
+      doc = yaml.load(
+        await fs.readFile(appRoot.resolve(swgConf.entry), 'utf-8')
+      ) as swagger.Document;
     }
     if (!swagger.validateDocument(doc)) {
       throw Error(`does not conform to the Swagger 2.0 schema`);
     }
     doc = addPingToSwagger(doc);
     if (process.env.NODE_APP_INSTANCE !== 'production') {
-      app.use(ui(doc, '/swagger'));
+      app.use(ui(doc, swgConf.url));
     }
     app.use(validate(doc));
   }
   return app;
 };
 
-export const server = async (router: Router) => {
+export const app = async (router?: Router): Promise<Koa> => {
   const app = new Koa();
   await setSwaggerConfig(app);
   app.use(koaBody({ jsonLimit: 1e8 }));
   app.use(logger());
+  if (!router) {
+    router = new Router();
+  }
   app.use(addPingToRouter(router).routes());
   app.use(errorHandler);
   app.use(
@@ -82,6 +87,10 @@ export const server = async (router: Router) => {
       methodNotAllowed: () => Boom.methodNotAllowed(),
     })
   );
-  app.listen(3000, () => console.log('listening on port 3000'));
   return app;
+};
+
+export const listen = async (app: Koa, path?: string) => {
+  const port = process.env.NODE_PORT || RunTimeConfig.get().port || 3000;
+  app.listen({ port }, () => console.log(`🚀 Server ready at http://localhost:${port}${path}`));
 };

@@ -2,7 +2,7 @@ import { RunTimeConfig } from '~l/runTimeConfig';
 RunTimeConfig.set('apollo-test');
 import { ApolloServer, gql } from 'apollo-server-koa';
 import { ApolloServerPluginInlineTrace } from 'apollo-server-core';
-import Koa from 'koa';
+import { app, listen } from '~l/koaServer';
 import { Sequelize as Seq } from 'sequelize-typescript';
 import { Sequelize, Op } from 'sequelize';
 import { Author, Book } from './sequelize/models';
@@ -17,7 +17,7 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     middleName: String
-    birthDate: Int
+    birthDate: String
   }
   type Book {
     id: Int
@@ -75,11 +75,10 @@ const startApolloServer = async (typeDefs, resolvers) => {
     plugins: [ApolloServerPluginInlineTrace()],
   });
   await server.start();
-  const app = new Koa();
-  server.applyMiddleware({ app });
-  await new Promise((resolve) => app.listen({ port: 3000 }, resolve as () => void));
-  console.log(`🚀 Server ready at http://localhost:3000${server.graphqlPath}`);
-  return { server, app };
+  const app1 = await app();
+  server.applyMiddleware({ app: app1 });
+  await listen(app1, server.graphqlPath);
+  return { server, app: app1 };
 };
 
 startApolloServer(typeDefs, resolvers).then();

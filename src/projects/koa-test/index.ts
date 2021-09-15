@@ -1,6 +1,6 @@
 import { RunTimeConfig } from '~l/runTimeConfig';
 RunTimeConfig.set('koa-test');
-import { server } from '~l/koaServer';
+import { app, listen } from '~l/koaServer';
 import Router from 'koa-router';
 import { Sequelize as Seq } from 'sequelize-typescript';
 import { Sequelize, Op } from 'sequelize';
@@ -50,4 +50,6 @@ router.get('/findBooks', async (ctx) => {
   });
 });
 
-server(router).then();
+app(router).then(async (app) => {
+  return listen(app, RunTimeConfig.get().build.swagger.url);
+});

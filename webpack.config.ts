@@ -29,12 +29,9 @@ export default async (env): Promise<Configuration> => {
 
   const config = (await import('config')).default.util.toObject();
   const entry = appRoot.resolve(config.build.entry);
-  let swgConf;
-  if (config.build.swagger) {
-    swgConf = JSON.stringify(await swaggerCombine(appRoot.resolve(config.build.swagger)));
-  } else {
-    swgConf = JSON.stringify({});
-  }
+  const swgConf = config.build.swagger
+    ? JSON.stringify(await swaggerCombine(appRoot.resolve(config.build.swagger.entry)))
+    : JSON.stringify({});
   const yarnCfg = yaml.load(await fs.readFile(appRoot.resolve('.yarnrc.yml'), 'utf8')) as {
     nodeLinker: string;
     yarnPath: string;
