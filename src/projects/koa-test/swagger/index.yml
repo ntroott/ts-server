@@ -20,3 +20,23 @@ paths:
           description: A list of pets.
           schema:
             type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: number
+                name:
+                  type: string
+                publicationYear:
+                  type: number
+                author:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    firstName:
+                      type: string
+                    lastName:
+                      type: string
+                    middleName:
+                      type: string
